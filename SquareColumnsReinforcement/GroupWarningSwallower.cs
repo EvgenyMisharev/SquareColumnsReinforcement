@@ -19,6 +19,7 @@ namespace SquareColumnsReinforcement
                     failuresAccessor.DeleteWarning(fa);
                 }
             }
+
             return FailureProcessingResult.Continue;
         }
     }
