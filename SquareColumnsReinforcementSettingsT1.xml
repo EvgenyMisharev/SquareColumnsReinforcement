@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<SquareColumnsReinforcementSettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <MainRebarTape>ø20</MainRebarTape>
+  <MainStirrupRebarTape>ø10 A240</MainStirrupRebarTape>
+  <RebarCoverType>35мм</RebarCoverType>
+  <ProgressiveCollapseRebarType>ø20</ProgressiveCollapseRebarType>
+  <MainRebarOutletsLongLength>1300</MainRebarOutletsLongLength>
+  <MainRebarOutletsShortLength>1200</MainRebarOutletsShortLength>
+  <FloorThicknessAboveColumn>100</FloorThicknessAboveColumn>
+  <StandardStirrupStep>200</StandardStirrupStep>
+  <FrequentTopStirrupStep>100</FrequentTopStirrupStep>
+  <FrequentBottomStirrupStep>100</FrequentBottomStirrupStep>
+  <FrequentTopStirrupPlacementHeight>300</FrequentTopStirrupPlacementHeight>
+  <FrequentBottomStirrupPlacementHeight>500</FrequentBottomStirrupPlacementHeight>
+  <FirstBottomStirrupOffset>100</FirstBottomStirrupOffset>
+  <ProgressiveCollapseUpLength />
+  <ProgressiveCollapseSideLength />
+  <ProgressiveCollapseBottomOffset />
+</SquareColumnsReinforcementSettings>

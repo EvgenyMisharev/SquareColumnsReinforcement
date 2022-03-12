@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<SquareColumnsReinforcementSettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <MainRebarTape>ø16</MainRebarTape>
+  <AdditionalMainRebarTape>ø16</AdditionalMainRebarTape>
+  <MainStirrupRebarTape>ø10 A240</MainStirrupRebarTape>
+  <AdditionalMainStirrupRebarTape>ø10 A240</AdditionalMainStirrupRebarTape>
+  <RebarCoverType>40мм</RebarCoverType>
+  <ProgressiveCollapseRebarType>10 A500</ProgressiveCollapseRebarType>
+  <MainRebarOutletsLongLength>0</MainRebarOutletsLongLength>
+  <MainRebarOutletsShortLength>0</MainRebarOutletsShortLength>
+  <FloorThicknessAboveColumn>200</FloorThicknessAboveColumn>
+  <StandardStirrupStep>200</StandardStirrupStep>
+  <FrequentTopStirrupStep>100</FrequentTopStirrupStep>
+  <FrequentBottomStirrupStep>100</FrequentBottomStirrupStep>
+  <FrequentTopStirrupPlacementHeight>600</FrequentTopStirrupPlacementHeight>
+  <FrequentBottomStirrupPlacementHeight>1400</FrequentBottomStirrupPlacementHeight>
+  <FirstBottomStirrupOffset>50</FirstBottomStirrupOffset>
+  <FirstUpRebarOffset>50</FirstUpRebarOffset>
+  <FirstDownRebarOffset>50</FirstDownRebarOffset>
+  <FirstLeftRebarOffset>50</FirstLeftRebarOffset>
+  <FirstRightRebarOffset>50</FirstRightRebarOffset>
+  <ProgressiveCollapseUpLength />
+  <ProgressiveCollapseSideLength />
+  <ProgressiveCollapseBottomOffset />
+</SquareColumnsReinforcementSettings>
