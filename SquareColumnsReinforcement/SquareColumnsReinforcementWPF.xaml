@@ -1,0 +1,40 @@
+﻿<Window x:Class="SquareColumnsReinforcement.SquareColumnsReinforcementWPF"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SquareColumnsReinforcement"
+             mc:Ignorable="d" 
+             Title="Армирование квадратных колонн" Height="330" Width="600" 
+             MinHeight="330" MinWidth="600" MaxHeight="330"
+             WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen" KeyDown="SquareColumnsReinforcementWPF_KeyDown">
+    <Grid>
+        <Grid.RowDefinitions>
+
+        </Grid.RowDefinitions>
+        <TabControl x:Name="tabControl" Margin="0,0,0,45" Grid.RowSpan="3">
+            <TabItem Header="Геометрия">
+                <Grid>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Формы">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100*"/>
+                        <RowDefinition Height="100*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="100*"/>
+                    </Grid.ColumnDefinitions>
+
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Button x:Name="btn_Ok" Content="Ок" HorizontalAlignment="Right" Margin="0,0,125,10" VerticalAlignment="Bottom" Width="100" Height="25" Click="btn_Ok_Click" Grid.Row="2"/>
+        <Button x:Name="btn_Cancel" Content="Отмена" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="100" Height="25" Click="btn_Cancel_Click" Grid.Row="2"/>
+
+    </Grid>
+</Window>
