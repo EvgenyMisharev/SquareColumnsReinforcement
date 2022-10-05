@@ -76,6 +76,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -168,6 +169,7 @@
     </When>
   </Choose>
   <ItemGroup>
+    <Compile Include="AlphanumComparatorFastString.cs" />
     <Compile Include="SquareColumnsReinforcementCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SquareColumnsReinforcementWPF.xaml.cs">
@@ -182,6 +184,63 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\RebarForms\01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\RebarForms\11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\RebarForms\26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\RebarForms\51.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\MainButtons\Type1.png" />
+    <Resource Include="Resources\MainButtons\Type2.png" />
+    <Resource Include="Resources\MainButtons\Type3.png" />
+    <Resource Include="Resources\MainButtons\Type4.png" />
+    <Resource Include="Resources\MainButtons\Type5.png" />
+    <Resource Include="Resources\MainButtons\Type6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Sections\Type1_Section.png" />
+    <Resource Include="Resources\Sections\Type2_Section.png" />
+    <Resource Include="Resources\Sections\Type3_Section.png" />
+    <Resource Include="Resources\Sections\Type4_Section.png" />
+    <Resource Include="Resources\Sections\Type5_Section.png" />
+    <Resource Include="Resources\Sections\Type6_Section.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\3D\Type1_3D.png" />
+    <Resource Include="Resources\3D\Type2_3D.png" />
+    <Resource Include="Resources\3D\Type3_3D.png" />
+    <Resource Include="Resources\3D\Type4_3D.png" />
+    <Resource Include="Resources\3D\Type5_3D.png" />
+    <Resource Include="Resources\3D\Type6_3D.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\RebarForms\RebarHookType.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Connections\RebarConnectionOverlapping.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Connections\RebarConnectionMechanical.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Connections\BendInSlab.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Connections\SectionChange.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ProgressiveCollapse\Beregiproject.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ProgressiveCollapse\ProgressiveCollapseBendsIntoSlab.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

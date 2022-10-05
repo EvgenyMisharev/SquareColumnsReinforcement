@@ -5,36 +5,164 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SquareColumnsReinforcement"
              mc:Ignorable="d" 
-             Title="Армирование квадратных колонн" Height="330" Width="600" 
-             MinHeight="330" MinWidth="600" MaxHeight="330"
+             Title="Армирование квадратных колонн" Height="900" Width="865" 
+             MinHeight="900" MinWidth="865" MaxHeight="900" MaxWidth="865"
              WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen" KeyDown="SquareColumnsReinforcementWPF_KeyDown">
     <Grid>
         <Grid.RowDefinitions>
 
         </Grid.RowDefinitions>
-        <TabControl x:Name="tabControl" Margin="0,0,0,45" Grid.RowSpan="3">
-            <TabItem Header="Геометрия">
+        <TabControl x:Name="tabControl" Margin="1,0,1,45">
+            <TabItem Header="Геометрия" Margin="0">
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="300*"/>
+                        <ColumnDefinition Width="300*"/>
+                    </Grid.ColumnDefinitions>
+                    <GridSplitter Width="1" HorizontalAlignment="Right"  VerticalAlignment="Stretch" Background="#FFACACAC"/>
+                    <Grid x:Name="buttonsTypeGrid" Grid.Row="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="270"/>
+                            <RowDefinition Height="280"/>
+                            <RowDefinition Height="185*"/>
+                        </Grid.RowDefinitions>
+                        <GridSplitter Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FFACACAC"/>
 
+                        <Label x:Name="label_Type1" Content="Тип 1" HorizontalAlignment="Left" Margin="45,10,0,0" VerticalAlignment="Top"/>
+                        <Button x:Name="button_Type1" HorizontalAlignment="Left" Margin="20,35,0,0" VerticalAlignment="Top" Width="90" Height="90" BorderBrush="#FF707070" BorderThickness="1" Click="button_Type1_Click">
+                            <Image Source="Resources/MainButtons/Type1.png" RenderOptions.BitmapScalingMode="Fant"/>
+                        </Button>
+
+                        <Label x:Name="label_Type2" Content="Тип 2" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
+                        <Button x:Name="button_Type2" HorizontalAlignment="Center" Margin="0,35,0,0" VerticalAlignment="Top" Width="90" Height="90"  BorderBrush="#FF707070" BorderThickness="1" Click="button_Type2_Click">
+                            <Image Source="Resources/MainButtons/Type2.png" RenderOptions.BitmapScalingMode="Fant"/>
+                        </Button>
+
+                        <Label x:Name="label_Type3" Content="Тип 3" HorizontalAlignment="Right" Margin="0,10,45,0" VerticalAlignment="Top"/>
+                        <Button x:Name="button_Type3" HorizontalAlignment="Right" Margin="0,35,20,0" VerticalAlignment="Top" Width="90" Height="90"  BorderBrush="#FF707070" BorderThickness="1" Click="button_Type3_Click">
+                            <Image Source="Resources/MainButtons/Type3.png" RenderOptions.BitmapScalingMode="Fant"/>
+                        </Button>
+
+                        <Label x:Name="label_Type4" Content="Тип 4" HorizontalAlignment="Left" Margin="45,140,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,1.192"/>
+                        <Button x:Name="button_Type4" HorizontalAlignment="Left" Margin="20,165,0,0" VerticalAlignment="Top" Width="90" Height="90"  BorderBrush="#FF707070" BorderThickness="1" Click="button_Type4_Click">
+                            <Image Source="Resources/MainButtons/Type4.png" RenderOptions.BitmapScalingMode="Fant"/>
+                        </Button>
+
+                        <Label x:Name="label_Type5" Content="Тип 5" HorizontalAlignment="Center" Margin="0,140,0,0" VerticalAlignment="Top"/>
+                        <Button x:Name="button_Type5" HorizontalAlignment="Center" Margin="0,165,0,0" VerticalAlignment="Top" Width="90" Height="90"  BorderBrush="#FF707070" BorderThickness="1" Click="button_Type5_Click">
+                            <Image Source="Resources/MainButtons/Type5.png" RenderOptions.BitmapScalingMode="Fant"/>
+                        </Button>
+
+                        <Label x:Name="label_Type6" Content="Тип 6" HorizontalAlignment="Right" Margin="0,140,45,0" VerticalAlignment="Top"/>
+                        <Button x:Name="button_Type6" HorizontalAlignment="Right" Margin="0,165,20,0" VerticalAlignment="Top" Width="90" Height="90"  BorderBrush="#FF707070" BorderThickness="1" Click="button_Type6_Click">
+                            <Image Source="Resources/MainButtons/Type6.png" RenderOptions.BitmapScalingMode="Fant"/>
+                        </Button>
+
+                        <Image x:Name ="image_Sections" RenderOptions.BitmapScalingMode="Fant" Grid.Row="1" />
+
+                        <GroupBox x:Name="groupBox_RebarConnectionOptions" Header="Варианты соединения:" Grid.Row="2" Margin="10,0,10,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200*"/>
+                                    <ColumnDefinition Width="200*"/>
+                                </Grid.ColumnDefinitions>
+                                <RadioButton x:Name="radioButton_Overlap" Content="Нахлест" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" IsChecked="True"/>
+                                <Image x:Name ="image_Overlap" RenderOptions.BitmapScalingMode="Fant" Margin="10,30,10,20" Source="Resources/Connections/RebarConnectionOverlapping.png"/>
+                                <CheckBox x:Name="checkBox_DeepenRebar" Content="Заглубить стержни" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Bottom" Padding="5,0,0,0" VerticalContentAlignment="Center" Height="20"/>
+                                <TextBox x:Name="textBox_DeepenRebar" HorizontalAlignment="Right" Height="20" Margin="0,0,10,0" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+
+                                <RadioButton x:Name="radioButton_Mechanical" Content="Механическое" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                                <Image x:Name ="image_Mechanical" RenderOptions.BitmapScalingMode="Fant" Margin="10,30,10,20" Grid.Column="1"  Source="Resources/Connections/RebarConnectionMechanical.png"/>
+                                <CheckBox x:Name="checkBox_OverlapTransitionOption" Content="Переход на нахлёст" Grid.Column="1" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" Padding="5,0,0,0" VerticalContentAlignment="Center" Height="20"/>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="635"/>
+                            <RowDefinition Height="100*"/>
+                        </Grid.RowDefinitions>
+                        <GridSplitter Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FFACACAC"/>
+                        <Image x:Name ="image_3D" RenderOptions.BitmapScalingMode="Fant"/>
+
+                        <Image x:Name="image_BendInSlab" RenderOptions.BitmapScalingMode="Fant" HorizontalAlignment="Left" Margin="10,10,0,35" Grid.Row="1" Width="200" Source="Resources/Connections/BendInSlab.png" Height="100" VerticalAlignment="Bottom"/>
+                        <CheckBox x:Name="checkBox_BendInSlab" Content="Загнуть в плиту" HorizontalAlignment="Left" Margin="50,0,0,10" VerticalAlignment="Bottom" Padding="5,0,0,0" VerticalContentAlignment="Center" Height="20" Grid.Row="1"/>
+                        <TextBox x:Name="textBox_BendInSlab" HorizontalAlignment="Left" Height="20" Margin="19,0,0,59" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Row="1"/>
+
+                        <Image x:Name="image_SectionChange" RenderOptions.BitmapScalingMode="Fant" HorizontalAlignment="Right" Margin="0,10,10,35" Grid.Row="1" Width="200" Source="Resources/Connections/SectionChange.png" Height="100" VerticalAlignment="Bottom"/>
+                        <CheckBox x:Name="checkBox_SectionChange" Content="Изменение сечения" HorizontalAlignment="Right" Margin="0,0,50,10" VerticalAlignment="Bottom" Padding="5,0,0,0" VerticalContentAlignment="Center" Height="20" Grid.Row="1"/>
+                        <TextBox x:Name="textBox_SectionChange" HorizontalAlignment="Right" Height="20" Margin="0,0,156,99" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Row="1"/>
+
+                    </Grid>
                 </Grid>
             </TabItem>
-            <TabItem Header="Формы">
+            <TabItem Header="Формы" Margin="0">
                 <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="100*"/>
-                        <RowDefinition Height="100*"/>
-                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200"/>
-                        <ColumnDefinition Width="200"/>
-                        <ColumnDefinition Width="100*"/>
+                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition Width="200*"/>
                     </Grid.ColumnDefinitions>
+                    <GridSplitter Width="1" HorizontalAlignment="Right"  VerticalAlignment="Stretch" Background="#FFACACAC"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="120*"/>
+                            <RowDefinition Height="120*"/>
+                            <RowDefinition Height="120*"/>
+                            <RowDefinition Height="120*"/>
+                            <RowDefinition Height="120*"/>
+                        </Grid.RowDefinitions>
+                        <Label x:Name="label_Form01" Content="Форма 01" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                        <Image x:Name="image_Form01" Height="75" Margin="10,36,10,0" VerticalAlignment="Top" Source="Resources/RebarForms/01.png" RenderOptions.BitmapScalingMode="Fant"/>
+                        <ComboBox x:Name="comboBox_Form01" Margin="10,120,10,0" VerticalAlignment="Top" Height="30" VerticalContentAlignment="Center"/>
+                        <GridSplitter Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FFACACAC"/>
 
+                        <Label x:Name="label_Form26" Content="Форма 26" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+                        <Image x:Name="image_Form26" Height="75" Margin="10,36,10,0" VerticalAlignment="Top" Source="Resources/RebarForms/26.png" RenderOptions.BitmapScalingMode="Fant" Panel.ZIndex="6" Grid.Row="1"/>
+                        <ComboBox x:Name="comboBox_Form26" Margin="10,120,10,0" VerticalAlignment="Top" Grid.Row="1" Height="30" VerticalContentAlignment="Center"/>
+                        <GridSplitter Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="1" Background="#FFACACAC"/>
+
+                        <Label x:Name="label_Form11" Content="Форма 11" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Grid.Row="2"/>
+                        <Image x:Name="image_Form11" Height="75" Margin="10,35,10,0" VerticalAlignment="Top" Grid.Row="2" Source="Resources/RebarForms/11.png" RenderOptions.BitmapScalingMode="Fant"/>
+                        <ComboBox x:Name="comboBox_Form11" Margin="10,120,10,0" VerticalAlignment="Top" Height="30" Grid.Row="2" VerticalContentAlignment="Center"/>
+                        <GridSplitter Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="2" Background="#FFACACAC"/>
+
+                        <Label x:Name="label_Form51" Content="Форма 51" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Grid.Row="3"/>
+                        <Image x:Name="image_Form51" Height="75" Margin="10,35,10,0" VerticalAlignment="Top" Grid.Row="3" Source="Resources/RebarForms/51.png" RenderOptions.BitmapScalingMode="Fant"/>
+                        <ComboBox x:Name="comboBox_Form51" Margin="10,120,10,0" VerticalAlignment="Top" Grid.Row="3" Height="30" VerticalContentAlignment="Center"/>
+                        <GridSplitter Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="3" Background="#FFACACAC"/>
+
+                        <Label x:Name="label_RebarHookType" Content="Отгиб арматуры для хомута" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Grid.Row="4"/>
+                        <Image x:Name="image_RebarHookType" Height="75" Margin="10,35,10,0" VerticalAlignment="Top" Grid.Row="4" Source="Resources/RebarForms/RebarHookType.png" RenderOptions.BitmapScalingMode="Fant"/>
+                        <ComboBox x:Name="comboBox_RebarHookType" Margin="10,120,10,0" VerticalAlignment="Top" Grid.Row="4" Height="30" VerticalContentAlignment="Center"/>
+                    </Grid>
+
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200*"/>
+                            <ColumnDefinition Width="200*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="500"/>
+                            <RowDefinition Height="120*"/>
+                        </Grid.RowDefinitions>
+                        <GridSplitter Width="1" HorizontalAlignment="Right"  VerticalAlignment="Stretch" Background="#FFACACAC"/>
+                        <GridSplitter Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FFACACAC" Grid.ColumnSpan="2"/>
+
+                        <CheckBox x:Name="checkBox_ProgressiveCollapseBendsIntoSlab" Content="Дополнительные стержни в плиту ниже" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="5,-1,0,0"/>
+                        <Image x:Name="image_ProgressiveCollapseBendsIntoSlab" RenderOptions.BitmapScalingMode="Fant" Source="Resources/ProgressiveCollapse/ProgressiveCollapseBendsIntoSlab.png" />
+
+                        <!--<TextBlock Margin="5" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="16" Padding="0,0,0,10">
+                            <Hyperlink NavigateUri="https://beregiproject.com/" RequestNavigate="Hyperlink_RequestNavigate"> Сайт проекта БЕРЕГИ </Hyperlink>
+                        </TextBlock>-->
+                        <Image x:Name="image_Reserv" Margin="0" Grid.Column="1" RenderOptions.BitmapScalingMode="Fant"/>
+                    </Grid>
                 </Grid>
             </TabItem>
         </TabControl>
         <Button x:Name="btn_Ok" Content="Ок" HorizontalAlignment="Right" Margin="0,0,125,10" VerticalAlignment="Bottom" Width="100" Height="25" Click="btn_Ok_Click" Grid.Row="2"/>
         <Button x:Name="btn_Cancel" Content="Отмена" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="100" Height="25" Click="btn_Cancel_Click" Grid.Row="2"/>
+        <Label x:Name="label" Content="Label" HorizontalAlignment="Left" Margin="913,577,-156,0" VerticalAlignment="Top" Width="100"/>
 
     </Grid>
 </Window>
