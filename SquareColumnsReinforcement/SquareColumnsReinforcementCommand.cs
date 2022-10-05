@@ -17,6 +17,20 @@ namespace SquareColumnsReinforcement
             // Получение текущего документа
             Document doc = commandData.Application.ActiveUIDocument.Document;
 
+            //Список типов для выбора арматуры
+            List<RebarBarType> rebarBarTypesList = new FilteredElementCollector(doc)
+                .OfClass(typeof(RebarBarType))
+                .Cast<RebarBarType>()
+                .OrderBy(rbt => rbt.Name, new AlphanumComparatorFastString())
+                .ToList();
+
+            //Список типов защитных слоев
+            List<RebarCoverType> rebarCoverTypesList = new FilteredElementCollector(doc)
+                .OfClass(typeof(RebarCoverType))
+                .Cast<RebarCoverType>()
+                .OrderBy(rct => rct.Name, new AlphanumComparatorFastString())
+                .ToList();
+
             //Формы для формы
             List<RebarShape> rebarShapeList = new FilteredElementCollector(doc)
                 .OfClass(typeof(RebarShape))
@@ -29,7 +43,7 @@ namespace SquareColumnsReinforcement
                 .Cast<RebarHookType>()
                 .ToList();
 
-            SquareColumnsReinforcementWPF squareColumnsReinforcementWPF = new SquareColumnsReinforcementWPF(rebarShapeList, rebarHookTypeList);
+            SquareColumnsReinforcementWPF squareColumnsReinforcementWPF = new SquareColumnsReinforcementWPF(rebarBarTypesList, rebarCoverTypesList, rebarShapeList, rebarHookTypeList);
             squareColumnsReinforcementWPF.ShowDialog();
             if (squareColumnsReinforcementWPF.DialogResult != true)
             {
