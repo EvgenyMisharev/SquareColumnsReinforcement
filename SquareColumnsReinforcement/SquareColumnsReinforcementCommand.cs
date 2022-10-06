@@ -43,7 +43,21 @@ namespace SquareColumnsReinforcement
                 .Cast<RebarHookType>()
                 .ToList();
 
-            SquareColumnsReinforcementWPF squareColumnsReinforcementWPF = new SquareColumnsReinforcementWPF(rebarBarTypesList, rebarCoverTypesList, rebarShapeList, rebarHookTypeList);
+            List<Family> rebarConnectionsList = new FilteredElementCollector(doc)
+                .OfClass(typeof(Family))
+                .Cast<Family>()
+                .Where(f => f.FamilyCategoryId.IntegerValue == (int)BuiltInCategory.OST_Rebar)
+                .Where(f => f.GetFamilySymbolIds().Count != 0)
+                .Where(f => doc.GetElement(f.GetFamilySymbolIds().First()).get_Parameter(BuiltInParameter.ALL_MODEL_MODEL) != null)
+                .Where(f => doc.GetElement(f.GetFamilySymbolIds().First()).get_Parameter(BuiltInParameter.ALL_MODEL_MODEL).AsString() == "Соединение арматуры")
+                .OrderBy(f => f.Name, new AlphanumComparatorFastString())
+                .ToList();
+
+            SquareColumnsReinforcementWPF squareColumnsReinforcementWPF = new SquareColumnsReinforcementWPF(rebarBarTypesList
+                , rebarCoverTypesList
+                , rebarShapeList
+                , rebarHookTypeList
+                , rebarConnectionsList);
             squareColumnsReinforcementWPF.ShowDialog();
             if (squareColumnsReinforcementWPF.DialogResult != true)
             {

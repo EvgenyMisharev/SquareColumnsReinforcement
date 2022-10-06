@@ -237,7 +237,7 @@
     <Resource Include="Resources\Connections\SectionChange.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\ProgressiveCollapse\ProgressiveCollapseBendsIntoSlab.png" />
+    <Resource Include="Resources\ProgressiveCollapse\ProgressiveCollapseBarIntoSlab.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\ProgressiveCollapse\Beregiproject.png" />
