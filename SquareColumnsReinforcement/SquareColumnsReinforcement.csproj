@@ -172,6 +172,12 @@
     <Compile Include="AlphanumComparatorFastString.cs" />
     <Compile Include="SquareColumnsReinforcementCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SquareColumnsReinforcementSettingsT1.cs" />
+    <Compile Include="SquareColumnsReinforcementSettingsT2.cs" />
+    <Compile Include="SquareColumnsReinforcementSettingsT3.cs" />
+    <Compile Include="SquareColumnsReinforcementSettingsT4.cs" />
+    <Compile Include="SquareColumnsReinforcementSettingsT5.cs" />
+    <Compile Include="SquareColumnsReinforcementSettingsT6.cs" />
     <Compile Include="SquareColumnsReinforcementWPF.xaml.cs">
       <DependentUpon>SquareColumnsReinforcementWPF.xaml</DependentUpon>
     </Compile>
