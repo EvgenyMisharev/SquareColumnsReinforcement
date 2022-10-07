@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace SquareColumnsReinforcement
 {
-    class SquareColumnsReinforcementSettingsT2
+    public class SquareColumnsReinforcementSettingsT2
     {
         public string Form01Name { get; set; }
         public string Form26Name { get; set; }

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<SquareColumnsReinforcementSettingsT2 xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Form01Name>О_1</Form01Name>
+  <Form26Name>О_26(α«90)</Form26Name>
+  <Form11Name>О_11</Form11Name>
+  <Form51Name>Х_51</Form51Name>
+  <RebarHookTypeForStirrupName>Хомут/стяжка_135°</RebarHookTypeForStirrupName>
+  <FirstMainBarTapeName>А240 Ø20</FirstMainBarTapeName>
+  <SecondMainBarTapeName>А240 Ø20</SecondMainBarTapeName>
+  <FirstStirrupBarTapeName>А240 Ø20</FirstStirrupBarTapeName>
+  <ColumnRebarCoverTypeName>20</ColumnRebarCoverTypeName>
+  <RebarConnectionOptionName>radioButton_Overlap</RebarConnectionOptionName>
+  <DeepenRebarChecked>false</DeepenRebarChecked>
+  <DeepenRebar>200</DeepenRebar>
+  <OverlapTransitionChecked>false</OverlapTransitionChecked>
+  <FirstRebarOutletsLength>2000</FirstRebarOutletsLength>
+  <SecondRebarOutletsLength>200</SecondRebarOutletsLength>
+  <StandardStirrupStep>200</StandardStirrupStep>
+  <FrequentButtomStirrupStep>200</FrequentButtomStirrupStep>
+  <FrequentButtomStirrupPlacementHeight>2000</FrequentButtomStirrupPlacementHeight>
+  <FrequentTopStirrupStep>200</FrequentTopStirrupStep>
+  <FrequentTopStirrupPlacementHeight>2000</FrequentTopStirrupPlacementHeight>
+  <FloorThickness>200</FloorThickness>
+  <FirstStirrupButtomOffset>200</FirstStirrupButtomOffset>
+  <BendInSlabChecked>false</BendInSlabChecked>
+  <BendInSlab>20</BendInSlab>
+  <SectionChangeChecked>false</SectionChangeChecked>
+  <SectionChange>20</SectionChange>
+  <ProgressiveCollapseBarIntoSlabChecked>false</ProgressiveCollapseBarIntoSlabChecked>
+  <ProgressiveCollapseBarTapeName>А240 Ø20</ProgressiveCollapseBarTapeName>
+  <ProgressiveCollapseColumnCenterOffset>200</ProgressiveCollapseColumnCenterOffset>
+  <ProgressiveCollapseUpLength>2000</ProgressiveCollapseUpLength>
+  <ProgressiveCollapseBottomIndent>20</ProgressiveCollapseBottomIndent>
+  <ProgressiveCollapseSideLength>2000</ProgressiveCollapseSideLength>
+  <MechanicalConnectionOptionName>radioButton_CouplingConnection</MechanicalConnectionOptionName>
+  <WeldedConnectionFamilyName>ВанночкаДляСварки_ГОСТ 14098-2014</WeldedConnectionFamilyName>
+  <CouplingConnectionFamilyName>МуфтаАрматурная_ТипС_RECO</CouplingConnectionFamilyName>
+</SquareColumnsReinforcementSettingsT2>

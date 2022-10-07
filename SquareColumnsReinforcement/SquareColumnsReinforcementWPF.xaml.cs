@@ -922,7 +922,7 @@ namespace SquareColumnsReinforcement
                     TaskDialog.Show("Revit", "Выберите тип для стержней по грани, чтобы продолжить работу!");
                     return;
                 }
-                if (SelectedReinforcementTypeButtonName != "button_Type2")
+                if (SelectedReinforcementTypeButtonName == "button_Type2")
                 {
                     SquareColumnsReinforcementSettingsT2Item = new SquareColumnsReinforcementSettingsT2();
 
