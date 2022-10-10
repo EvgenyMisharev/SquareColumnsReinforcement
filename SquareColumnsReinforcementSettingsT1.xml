@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <SquareColumnsReinforcementSettingsT1 xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Form01Name>О_1</Form01Name>
-  <Form26Name>О_26(α«90)</Form26Name>
-  <Form11Name>О_11</Form11Name>
-  <Form51Name>Х_51</Form51Name>
-  <RebarHookTypeForStirrupName>Хомут/стяжка_135°</RebarHookTypeForStirrupName>
-  <FirstMainBarTapeName>А240 Ø10</FirstMainBarTapeName>
-  <FirstStirrupBarTapeName>А240 Ø10</FirstStirrupBarTapeName>
-  <ColumnRebarCoverTypeName>15</ColumnRebarCoverTypeName>
+  <Form26Name>О_1</Form26Name>
+  <Form11Name>О_1</Form11Name>
+  <Form51Name>О_1</Form51Name>
+  <RebarHookTypeForStirrupName>В25_Анкеровка_45°</RebarHookTypeForStirrupName>
+  <FirstMainBarTapeName>А240 Ø4</FirstMainBarTapeName>
+  <FirstStirrupBarTapeName>А240 Ø4</FirstStirrupBarTapeName>
+  <ColumnRebarCoverTypeName>0</ColumnRebarCoverTypeName>
   <RebarConnectionOptionName>radioButton_Overlap</RebarConnectionOptionName>
   <DeepenRebarChecked>false</DeepenRebarChecked>
   <DeepenRebar>100</DeepenRebar>
@@ -26,7 +26,7 @@
   <SectionChangeChecked>false</SectionChangeChecked>
   <SectionChange>10</SectionChange>
   <ProgressiveCollapseBarIntoSlabChecked>false</ProgressiveCollapseBarIntoSlabChecked>
-  <ProgressiveCollapseBarTapeName>А240 Ø10</ProgressiveCollapseBarTapeName>
+  <ProgressiveCollapseBarTapeName>А240 Ø4</ProgressiveCollapseBarTapeName>
   <ProgressiveCollapseColumnCenterOffset>100</ProgressiveCollapseColumnCenterOffset>
   <ProgressiveCollapseUpLength>1000</ProgressiveCollapseUpLength>
   <ProgressiveCollapseBottomIndent>10</ProgressiveCollapseBottomIndent>

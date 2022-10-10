@@ -170,6 +170,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AlphanumComparatorFastString.cs" />
+    <Compile Include="ColumnPropertyCollector.cs" />
+    <Compile Include="ColumnSelectionFilter.cs" />
     <Compile Include="SquareColumnsReinforcementCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SquareColumnsReinforcementSettingsT1.cs" />
@@ -178,6 +180,12 @@
     <Compile Include="SquareColumnsReinforcementSettingsT4.cs" />
     <Compile Include="SquareColumnsReinforcementSettingsT5.cs" />
     <Compile Include="SquareColumnsReinforcementSettingsT6.cs" />
+    <Compile Include="SquareColumnsReinforcementT1.cs" />
+    <Compile Include="SquareColumnsReinforcementT2.cs" />
+    <Compile Include="SquareColumnsReinforcementT3.cs" />
+    <Compile Include="SquareColumnsReinforcementT4.cs" />
+    <Compile Include="SquareColumnsReinforcementT5.cs" />
+    <Compile Include="SquareColumnsReinforcementT6.cs" />
     <Compile Include="SquareColumnsReinforcementWPF.xaml.cs">
       <DependentUpon>SquareColumnsReinforcementWPF.xaml</DependentUpon>
     </Compile>
