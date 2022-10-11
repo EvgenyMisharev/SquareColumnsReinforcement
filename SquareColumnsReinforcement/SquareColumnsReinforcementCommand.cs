@@ -87,46 +87,43 @@ namespace SquareColumnsReinforcement
                 return Result.Cancelled;
             }
 
-            foreach (FamilyInstance column in columnsList)
+            switch (squareColumnsReinforcementWPF.SelectedReinforcementTypeButtonName)
             {
-                switch (squareColumnsReinforcementWPF.SelectedReinforcementTypeButtonName)
-                {
-                    case "button_Type1":
-                        SquareColumnsReinforcementT1 squareColumnsReinforcementT1 = new SquareColumnsReinforcementT1(doc
-                            , column
-                            , squareColumnsReinforcementWPF);
-                        break;
+                case "button_Type1":
+                    SquareColumnsReinforcementT1 squareColumnsReinforcementT1 = new SquareColumnsReinforcementT1(doc
+                        , columnsList
+                        , squareColumnsReinforcementWPF);
+                    break;
 
-                    case "button_Type2":
-                        SquareColumnsReinforcementT2 squareColumnsReinforcementT2 = new SquareColumnsReinforcementT2(doc
-                            , column
-                            , squareColumnsReinforcementWPF);
-                        break;
+                case "button_Type2":
+                    SquareColumnsReinforcementT2 squareColumnsReinforcementT2 = new SquareColumnsReinforcementT2(doc
+                        , columnsList
+                        , squareColumnsReinforcementWPF);
+                    break;
 
-                    case "button_Type3":
-                        SquareColumnsReinforcementT3 squareColumnsReinforcementT3 = new SquareColumnsReinforcementT3(doc
-                            , column
-                            , squareColumnsReinforcementWPF);
-                        break;
+                case "button_Type3":
+                    SquareColumnsReinforcementT3 squareColumnsReinforcementT3 = new SquareColumnsReinforcementT3(doc
+                        , columnsList
+                        , squareColumnsReinforcementWPF);
+                    break;
 
-                    case "button_Type4":
-                        SquareColumnsReinforcementT4 squareColumnsReinforcementT4 = new SquareColumnsReinforcementT4(doc
-                            , column
-                            , squareColumnsReinforcementWPF);
-                        break;
+                case "button_Type4":
+                    SquareColumnsReinforcementT4 squareColumnsReinforcementT4 = new SquareColumnsReinforcementT4(doc
+                        , columnsList
+                        , squareColumnsReinforcementWPF);
+                    break;
 
-                    case "button_Type5":
-                        SquareColumnsReinforcementT5 squareColumnsReinforcementT5 = new SquareColumnsReinforcementT5(doc
-                            , column
-                            , squareColumnsReinforcementWPF);
-                        break;
+                case "button_Type5":
+                    SquareColumnsReinforcementT5 squareColumnsReinforcementT5 = new SquareColumnsReinforcementT5(doc
+                        , columnsList
+                        , squareColumnsReinforcementWPF);
+                    break;
 
-                    case "button_Type6":
-                        SquareColumnsReinforcementT6 squareColumnsReinforcementT6 = new SquareColumnsReinforcementT6(doc
-                            , column
-                            , squareColumnsReinforcementWPF);
-                        break;
-                }
+                case "button_Type6":
+                    SquareColumnsReinforcementT6 squareColumnsReinforcementT6 = new SquareColumnsReinforcementT6(doc
+                        , columnsList
+                        , squareColumnsReinforcementWPF);
+                    break;
             }
 
             return Result.Succeeded;
