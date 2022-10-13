@@ -13,11 +13,7 @@ namespace SquareColumnsReinforcement
             , List<FamilyInstance> columnsList
             , SquareColumnsReinforcementWPF squareColumnsReinforcementWPF)
         {
-            double sectionOffset = squareColumnsReinforcementWPF.SectionChange / 304.8;
-            double deltaXOverlapping = Math.Sqrt(Math.Pow((sectionOffset + squareColumnsReinforcementWPF.FirstMainBarTape.BarDiameter), 2) + Math.Pow(sectionOffset, 2));
-            double alphaOverlapping = Math.Asin(sectionOffset / deltaXOverlapping);
-            double deltaXWelding = Math.Sqrt(Math.Pow(sectionOffset, 2) + Math.Pow(sectionOffset, 2));
-            double alphaWelding = Math.Asin(sectionOffset / deltaXWelding);
+
 
             using (Transaction t = new Transaction(doc))
             {

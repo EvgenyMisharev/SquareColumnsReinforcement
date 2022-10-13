@@ -8,7 +8,7 @@
   <FirstMainBarTapeName>А500 Ø20</FirstMainBarTapeName>
   <FirstStirrupBarTapeName>А240 Ø8</FirstStirrupBarTapeName>
   <ColumnRebarCoverTypeName>35</ColumnRebarCoverTypeName>
-  <RebarConnectionOptionName>radioButton_Overlap</RebarConnectionOptionName>
+  <RebarConnectionOptionName>radioButton_Mechanical</RebarConnectionOptionName>
   <DeepenRebarChecked>false</DeepenRebarChecked>
   <DeepenRebar>600</DeepenRebar>
   <OverlapTransitionChecked>false</OverlapTransitionChecked>
@@ -23,7 +23,7 @@
   <FirstStirrupButtomOffset>50</FirstStirrupButtomOffset>
   <BendInSlabChecked>false</BendInSlabChecked>
   <BendInSlab>50</BendInSlab>
-  <SectionChangeChecked>false</SectionChangeChecked>
+  <SectionChangeChecked>true</SectionChangeChecked>
   <SectionChange>50</SectionChange>
   <ProgressiveCollapseBarIntoSlabChecked>false</ProgressiveCollapseBarIntoSlabChecked>
   <ProgressiveCollapseBarTapeName>А500 Ø16</ProgressiveCollapseBarTapeName>
