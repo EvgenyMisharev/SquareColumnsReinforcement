@@ -36,8 +36,8 @@ namespace SquareColumnsReinforcement
                 columnProfileCurveList.Add(curve);
             }
 
-            ColumnSectionWidth = Math.Round(columnProfileCurveList.FirstOrDefault(c => (c as Line).Direction.IsAlmostEqualTo(new XYZ(1, 0, 0))).Length, 6);
-            ColumnSectionHeight = Math.Round(columnProfileCurveList.FirstOrDefault(c => (c as Line).Direction.IsAlmostEqualTo(new XYZ(0, 1, 0))).Length, 6);
+            ColumnSectionWidth = Math.Round(columnProfileCurveList.FirstOrDefault(c => (c as Line).Direction.IsAlmostEqualTo(new XYZ(0, 1, 0))).Length, 6);
+            ColumnSectionHeight = Math.Round(columnProfileCurveList.FirstOrDefault(c => (c as Line).Direction.IsAlmostEqualTo(new XYZ(1, 0, 0))).Length, 6);
 
             //Базовый уровень
             BaseLevel = doc.GetElement(column.get_Parameter(BuiltInParameter.FAMILY_BASE_LEVEL_PARAM).AsElementId()) as Level;

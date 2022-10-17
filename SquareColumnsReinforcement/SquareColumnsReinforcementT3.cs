@@ -348,13 +348,33 @@ namespace SquareColumnsReinforcement
                         && squareColumnsReinforcementWPF.BendInSlabChecked == true)
                     {
                         //Точки для построения кривых основных угловых стержней удлиненных
-                        XYZ rebar_p1L = new XYZ(Math.Round(columnProperty.ColumnBasePoint.X, 6), Math.Round(columnProperty.ColumnBasePoint.Y, 6), Math.Round(columnProperty.ColumnBasePoint.Z - deepenRebar, 6));
-                        XYZ rebar_p2L = new XYZ(Math.Round(rebar_p1L.X, 6), Math.Round(rebar_p1L.Y, 6), Math.Round(rebar_p1L.Z + deepenRebar + columnProperty.ColumnLength + floorThickness - bendInSlab - firstMainBarDiam / 2, 6));
+                        XYZ rebar_p1L = null;
+                        XYZ rebar_p2L = null;
+                        if (squareColumnsReinforcementWPF.DeepenRebarChecked)
+                        {
+                            rebar_p1L = new XYZ(Math.Round(columnProperty.ColumnBasePoint.X, 6), Math.Round(columnProperty.ColumnBasePoint.Y, 6), Math.Round(columnProperty.ColumnBasePoint.Z - deepenRebar, 6));
+                            rebar_p2L = new XYZ(Math.Round(rebar_p1L.X, 6), Math.Round(rebar_p1L.Y, 6), Math.Round(rebar_p1L.Z + deepenRebar + columnProperty.ColumnLength + floorThickness - bendInSlab - firstMainBarDiam / 2, 6));
+                        }
+                        else
+                        {
+                            rebar_p1L = new XYZ(Math.Round(columnProperty.ColumnBasePoint.X, 6), Math.Round(columnProperty.ColumnBasePoint.Y, 6), Math.Round(columnProperty.ColumnBasePoint.Z, 6));
+                            rebar_p2L = new XYZ(Math.Round(rebar_p1L.X, 6), Math.Round(rebar_p1L.Y, 6), Math.Round(rebar_p1L.Z + columnProperty.ColumnLength + floorThickness - bendInSlab - firstMainBarDiam / 2, 6));
+                        }
                         XYZ rebar_p3L = new XYZ(Math.Round(rebar_p2L.X + firstRebarOutletsLength - (floorThickness - bendInSlab - firstMainBarDiam / 2), 6), Math.Round(rebar_p2L.Y, 6), Math.Round(rebar_p2L.Z, 6));
 
                         //Точки для построения кривых основных боковых стержней укороченных
-                        XYZ rebar_p1S = new XYZ(Math.Round(columnProperty.ColumnBasePoint.X, 6), Math.Round(columnProperty.ColumnBasePoint.Y, 6), Math.Round(columnProperty.ColumnBasePoint.Z - deepenRebar, 6));
-                        XYZ rebar_p2S = new XYZ(Math.Round(rebar_p1S.X, 6), Math.Round(rebar_p1S.Y, 6), Math.Round(rebar_p1S.Z + deepenRebar + columnProperty.ColumnLength + floorThickness - bendInSlab - secondMainBarDiam / 2, 6));
+                        XYZ rebar_p1S = null;
+                        XYZ rebar_p2S = null;
+                        if (squareColumnsReinforcementWPF.DeepenRebarChecked)
+                        {
+                            rebar_p1S = new XYZ(Math.Round(columnProperty.ColumnBasePoint.X, 6), Math.Round(columnProperty.ColumnBasePoint.Y, 6), Math.Round(columnProperty.ColumnBasePoint.Z - deepenRebar, 6));
+                            rebar_p2S = new XYZ(Math.Round(rebar_p1S.X, 6), Math.Round(rebar_p1S.Y, 6), Math.Round(rebar_p1S.Z + deepenRebar + columnProperty.ColumnLength + floorThickness - bendInSlab - secondMainBarDiam / 2, 6));
+                        }
+                        else
+                        {
+                            rebar_p1S = new XYZ(Math.Round(columnProperty.ColumnBasePoint.X, 6), Math.Round(columnProperty.ColumnBasePoint.Y, 6), Math.Round(columnProperty.ColumnBasePoint.Z, 6));
+                            rebar_p2S = new XYZ(Math.Round(rebar_p1S.X, 6), Math.Round(rebar_p1S.Y, 6), Math.Round(rebar_p1S.Z + columnProperty.ColumnLength + floorThickness - bendInSlab - secondMainBarDiam / 2, 6));
+                        }
                         XYZ rebar_p3S = new XYZ(Math.Round(rebar_p2S.X + secondRebarOutletsLength - (floorThickness - bendInSlab - secondMainBarDiam / 2), 6), Math.Round(rebar_p2S.Y, 6), Math.Round(rebar_p2S.Z, 6));
 
                         //Кривые стержня удлиненного
@@ -1207,6 +1227,7 @@ namespace SquareColumnsReinforcement
                             + coverDistance
                             + firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1.Id, newPlaсeСolumnMainRebar_1);
+                        ElementTransformUtils.RotateElement(doc, columnMainRebar_1.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
 
                         //Верхний левый угол
                         Rebar columnMainRebar_2 = Rebar.CreateFromCurvesAndShape(doc
@@ -1227,6 +1248,7 @@ namespace SquareColumnsReinforcement
                             - coverDistance
                             - firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2.Id, newPlaсeСolumnRebar_2);
+                        ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
 
                         //Верхний правый угол
                         Rebar columnMainRebar_3 = Rebar.CreateFromCurvesAndShape(doc
@@ -1251,6 +1273,7 @@ namespace SquareColumnsReinforcement
                             - coverDistance
                             - firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3.Id, newPlaсeСolumnRebar_3);
+                        ElementTransformUtils.RotateElement(doc, columnMainRebar_3.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
 
                         //Нижний правый угол
                         Rebar columnMainRebar_4 = Rebar.CreateFromCurvesAndShape(doc
@@ -1270,6 +1293,7 @@ namespace SquareColumnsReinforcement
                             , -columnProperty.ColumnSectionWidth / 2
                             + coverDistance + firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4.Id, newPlaсeСolumnRebar_4);
+                        ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
 
                         //Центральный левый стержень
                         Rebar columnMainRebar_1A = Rebar.CreateFromCurvesAndShape(doc
@@ -1285,6 +1309,7 @@ namespace SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1A.Id, rotateLine, alphaSecondOverlapping);
                         XYZ newPlaсeСolumnMainRebar_1A = new XYZ(-columnProperty.ColumnSectionHeight / 2 + coverDistance + secondMainBarDiam / 2, 0, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1A.Id, newPlaсeСolumnMainRebar_1A);
+                        ElementTransformUtils.RotateElement(doc, columnMainRebar_1A.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
 
                         //Центральный правый стержень
                         Rebar columnMainRebar_2A = Rebar.CreateFromCurvesAndShape(doc
@@ -1301,6 +1326,7 @@ namespace SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2A.Id, rotateLine2, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_2A = new XYZ(columnProperty.ColumnSectionHeight / 2 - coverDistance - secondMainBarDiam / 2, 0, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2A.Id, newPlaсeСolumnRebar_2A);
+                        ElementTransformUtils.RotateElement(doc, columnMainRebar_2A.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
 
                         //Центральный нижний стержень
                         Rebar columnMainRebar_3A = Rebar.CreateFromCurvesAndShape(doc
@@ -1317,6 +1343,7 @@ namespace SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3A.Id, rotateLine2, 90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_3A = new XYZ(0, -columnProperty.ColumnSectionWidth / 2 + coverDistance + secondMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3A.Id, newPlaсeСolumnRebar_3A);
+                        ElementTransformUtils.RotateElement(doc, columnMainRebar_3A.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
 
                         //Центральный верхний стержень
                         Rebar columnMainRebar_4A = Rebar.CreateFromCurvesAndShape(doc
@@ -1333,6 +1360,7 @@ namespace SquareColumnsReinforcement
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4A.Id, rotateLine2, -90 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_4A = new XYZ(0, columnProperty.ColumnSectionWidth / 2 - coverDistance - secondMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4A.Id, newPlaсeСolumnRebar_4A);
+                        ElementTransformUtils.RotateElement(doc, columnMainRebar_4A.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
                     }
 
                     //Если стыковка стержней на сварке с изменением сечения колонны выше

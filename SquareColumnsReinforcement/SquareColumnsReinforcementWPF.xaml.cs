@@ -79,6 +79,7 @@ namespace SquareColumnsReinforcement
 
         private bool CheckFillingOk = true;
 
+        SquareColumnsReinforcementSettings SquareColumnsReinforcementSettingsItem;
         SquareColumnsReinforcementSettingsT1 SquareColumnsReinforcementSettingsT1Item;
         SquareColumnsReinforcementSettingsT2 SquareColumnsReinforcementSettingsT2Item;
         SquareColumnsReinforcementSettingsT3 SquareColumnsReinforcementSettingsT3Item;
@@ -98,6 +99,7 @@ namespace SquareColumnsReinforcement
             RebarHookTypeList = rebarHookTypeList;
             RebarConnectionsList = rebarConnectionsList;
 
+            SquareColumnsReinforcementSettingsItem = new SquareColumnsReinforcementSettings().GetSettings();
             SquareColumnsReinforcementSettingsT1Item = new SquareColumnsReinforcementSettingsT1().GetSettings();
             SquareColumnsReinforcementSettingsT2Item = new SquareColumnsReinforcementSettingsT2().GetSettings();
             SquareColumnsReinforcementSettingsT3Item = new SquareColumnsReinforcementSettingsT3().GetSettings();
@@ -146,7 +148,39 @@ namespace SquareColumnsReinforcement
             comboBox_CouplingConnection.ItemsSource = RebarConnectionsList;
             comboBox_CouplingConnection.DisplayMemberPath = "Name";
 
-            button_Type1.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            if(SquareColumnsReinforcementSettingsItem != null)
+            {
+                switch (SquareColumnsReinforcementSettingsItem.SelectedReinforcementTypeButtonName)
+                {
+                    case "button_Type1":
+                        button_Type1.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                        break;
+
+                    case "button_Type2":
+                        button_Type2.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                        break;
+
+                    case "button_Type3":
+                        button_Type3.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                        break;
+
+                    case "button_Type4":
+                        button_Type4.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                        break;
+
+                    case "button_Type5":
+                        button_Type5.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                        break;
+
+                    case "button_Type6":
+                        button_Type6.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+                        break;
+                }
+            }   
+            else
+            {
+                button_Type1.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            }
         }
         private void btn_Ok_Click(object sender, RoutedEventArgs e)
         {
@@ -584,6 +618,10 @@ namespace SquareColumnsReinforcement
         }
         private void SaveSettings()
         {
+            SquareColumnsReinforcementSettingsItem = new SquareColumnsReinforcementSettings();
+            SquareColumnsReinforcementSettingsItem.SelectedReinforcementTypeButtonName = SelectedReinforcementTypeButtonName;
+            SquareColumnsReinforcementSettingsItem.SaveSettings();
+
             //Проверка выбора форм стержней для всех типов
             Form01 = comboBox_Form01.SelectedItem as RebarShape;
             if (Form01 == null)
