@@ -1,23 +1,23 @@
 <?xml version="1.0"?>
-<SquareColumnsReinforcementSettingsT4 xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<SquareColumnsReinforcementSettingsT5 xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Form01Name>О_1</Form01Name>
   <Form26Name>О_26(α»90)</Form26Name>
   <Form11Name>О_11</Form11Name>
   <Form51Name>Х_51</Form51Name>
   <RebarHookTypeForStirrupName>Хомут/стяжка_135°</RebarHookTypeForStirrupName>
-  <FirstMainBarTapeName>А500 Ø32</FirstMainBarTapeName>
+  <FirstMainBarTapeName>А500 Ø25</FirstMainBarTapeName>
   <SecondMainBarTapeName>А500 Ø20</SecondMainBarTapeName>
   <FirstStirrupBarTapeName>А240 Ø6</FirstStirrupBarTapeName>
   <SecondStirrupBarTapeName>А240 Ø6</SecondStirrupBarTapeName>
   <ColumnRebarCoverTypeName>40</ColumnRebarCoverTypeName>
-  <FirstTopRebarOffset>50</FirstTopRebarOffset>
-  <FirstLowerRebarOffset>50</FirstLowerRebarOffset>
-  <FirstLeftRebarOffset>50</FirstLeftRebarOffset>
-  <FirstRightRebarOffset>50</FirstRightRebarOffset>
+  <FirstTopRebarOffset>100</FirstTopRebarOffset>
+  <FirstLowerRebarOffset>100</FirstLowerRebarOffset>
+  <FirstLeftRebarOffset>100</FirstLeftRebarOffset>
+  <FirstRightRebarOffset>100</FirstRightRebarOffset>
   <RebarConnectionOptionName>radioButton_Mechanical</RebarConnectionOptionName>
   <DeepenRebarChecked>false</DeepenRebarChecked>
   <DeepenRebar>600</DeepenRebar>
-  <OverlapTransitionChecked>true</OverlapTransitionChecked>
+  <OverlapTransitionChecked>false</OverlapTransitionChecked>
   <FirstRebarOutletsLength>1200</FirstRebarOutletsLength>
   <SecondRebarOutletsLength>800</SecondRebarOutletsLength>
   <StandardStirrupStep>200</StandardStirrupStep>
@@ -29,7 +29,7 @@
   <FirstStirrupButtomOffset>50</FirstStirrupButtomOffset>
   <BendInSlabChecked>false</BendInSlabChecked>
   <BendInSlab>50</BendInSlab>
-  <SectionChangeChecked>false</SectionChangeChecked>
+  <SectionChangeChecked>true</SectionChangeChecked>
   <SectionChange>50</SectionChange>
   <ProgressiveCollapseBarIntoSlabChecked>false</ProgressiveCollapseBarIntoSlabChecked>
   <ProgressiveCollapseBarTapeName>А240 Ø4</ProgressiveCollapseBarTapeName>
@@ -40,4 +40,4 @@
   <MechanicalConnectionOptionName>radioButton_CouplingConnection</MechanicalConnectionOptionName>
   <WeldedConnectionFamilyName>ВанночкаДляСварки_ГОСТ 14098-2014</WeldedConnectionFamilyName>
   <CouplingConnectionFamilyName>МуфтаАрматурная_ТипС_RECO</CouplingConnectionFamilyName>
-</SquareColumnsReinforcementSettingsT4>
+</SquareColumnsReinforcementSettingsT5>

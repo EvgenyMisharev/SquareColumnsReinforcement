@@ -1589,7 +1589,7 @@ namespace SquareColumnsReinforcement
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2B.Id, rotateLine, 90 * (Math.PI / 180));
-                        XYZ newPlaсeСolumnMainRebar_2B = new XYZ(+columnProperty.ColumnSectionHeight / 2 - coverDistance - secondMainBarDiam / 2, firstTopRebarOffset, 0);
+                        XYZ newPlaсeСolumnMainRebar_2B = new XYZ(columnProperty.ColumnSectionHeight / 2 - coverDistance - secondMainBarDiam / 2, firstTopRebarOffset, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2B.Id, newPlaсeСolumnMainRebar_2B);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2B.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
 
