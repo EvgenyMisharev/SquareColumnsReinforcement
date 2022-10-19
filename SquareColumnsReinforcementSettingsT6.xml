@@ -1,47 +1,47 @@
 <?xml version="1.0"?>
 <SquareColumnsReinforcementSettingsT6 xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Form01Name>О_1</Form01Name>
-  <Form26Name>О_26(α«90)</Form26Name>
+  <Form26Name>О_26(α»90)</Form26Name>
   <Form11Name>О_11</Form11Name>
   <Form51Name>Х_51</Form51Name>
   <RebarHookTypeForStirrupName>Хомут/стяжка_135°</RebarHookTypeForStirrupName>
-  <FirstMainBarTapeName>А600 Ø4</FirstMainBarTapeName>
-  <SecondMainBarTapeName>А600 Ø32</SecondMainBarTapeName>
-  <FirstStirrupBarTapeName>А600 Ø10</FirstStirrupBarTapeName>
-  <SecondStirrupBarTapeName>А600 Ø6</SecondStirrupBarTapeName>
-  <ColumnRebarCoverTypeName>70</ColumnRebarCoverTypeName>
-  <FirstTopRebarOffset>60</FirstTopRebarOffset>
-  <FirstLowerRebarOffset>60</FirstLowerRebarOffset>
-  <FirstLeftRebarOffset>60</FirstLeftRebarOffset>
-  <FirstRightRebarOffset>60</FirstRightRebarOffset>
-  <SecondTopRebarOffset>60</SecondTopRebarOffset>
-  <SecondLowerRebarOffset>60</SecondLowerRebarOffset>
-  <SecondLeftRebarOffset>60</SecondLeftRebarOffset>
-  <SecondRightRebarOffset>60</SecondRightRebarOffset>
+  <FirstMainBarTapeName>А500 Ø25</FirstMainBarTapeName>
+  <SecondMainBarTapeName>А500 Ø20</SecondMainBarTapeName>
+  <FirstStirrupBarTapeName>А240 Ø6</FirstStirrupBarTapeName>
+  <SecondStirrupBarTapeName>А240 Ø6</SecondStirrupBarTapeName>
+  <ColumnRebarCoverTypeName>40</ColumnRebarCoverTypeName>
+  <FirstTopRebarOffset>35</FirstTopRebarOffset>
+  <FirstLowerRebarOffset>35</FirstLowerRebarOffset>
+  <FirstLeftRebarOffset>35</FirstLeftRebarOffset>
+  <FirstRightRebarOffset>35</FirstRightRebarOffset>
+  <SecondTopRebarOffset>70</SecondTopRebarOffset>
+  <SecondLowerRebarOffset>70</SecondLowerRebarOffset>
+  <SecondLeftRebarOffset>70</SecondLeftRebarOffset>
+  <SecondRightRebarOffset>70</SecondRightRebarOffset>
   <RebarConnectionOptionName>radioButton_Mechanical</RebarConnectionOptionName>
-  <DeepenRebarChecked>true</DeepenRebarChecked>
+  <DeepenRebarChecked>false</DeepenRebarChecked>
   <DeepenRebar>600</DeepenRebar>
-  <OverlapTransitionChecked>true</OverlapTransitionChecked>
-  <FirstRebarOutletsLength>6000</FirstRebarOutletsLength>
-  <SecondRebarOutletsLength>600</SecondRebarOutletsLength>
-  <StandardStirrupStep>600</StandardStirrupStep>
-  <FrequentButtomStirrupStep>600</FrequentButtomStirrupStep>
-  <FrequentButtomStirrupPlacementHeight>6000</FrequentButtomStirrupPlacementHeight>
-  <FrequentTopStirrupStep>600</FrequentTopStirrupStep>
-  <FrequentTopStirrupPlacementHeight>6000</FrequentTopStirrupPlacementHeight>
-  <FloorThickness>600</FloorThickness>
-  <FirstStirrupButtomOffset>600</FirstStirrupButtomOffset>
-  <BendInSlabChecked>true</BendInSlabChecked>
-  <BendInSlab>60</BendInSlab>
-  <SectionChangeChecked>true</SectionChangeChecked>
-  <SectionChange>6</SectionChange>
+  <OverlapTransitionChecked>false</OverlapTransitionChecked>
+  <FirstRebarOutletsLength>1200</FirstRebarOutletsLength>
+  <SecondRebarOutletsLength>800</SecondRebarOutletsLength>
+  <StandardStirrupStep>200</StandardStirrupStep>
+  <FrequentButtomStirrupStep>100</FrequentButtomStirrupStep>
+  <FrequentButtomStirrupPlacementHeight>1200</FrequentButtomStirrupPlacementHeight>
+  <FrequentTopStirrupStep>100</FrequentTopStirrupStep>
+  <FrequentTopStirrupPlacementHeight>800</FrequentTopStirrupPlacementHeight>
+  <FloorThickness>200</FloorThickness>
+  <FirstStirrupButtomOffset>50</FirstStirrupButtomOffset>
+  <BendInSlabChecked>false</BendInSlabChecked>
+  <BendInSlab>50</BendInSlab>
+  <SectionChangeChecked>false</SectionChangeChecked>
+  <SectionChange>50</SectionChange>
   <ProgressiveCollapseBarIntoSlabChecked>false</ProgressiveCollapseBarIntoSlabChecked>
-  <ProgressiveCollapseBarTapeName>А600 Ø11</ProgressiveCollapseBarTapeName>
-  <ProgressiveCollapseColumnCenterOffset>600</ProgressiveCollapseColumnCenterOffset>
-  <ProgressiveCollapseUpLength>6000</ProgressiveCollapseUpLength>
-  <ProgressiveCollapseBottomIndent>60</ProgressiveCollapseBottomIndent>
-  <ProgressiveCollapseSideLength>6000</ProgressiveCollapseSideLength>
-  <MechanicalConnectionOptionName>radioButton_WeldedConnection</MechanicalConnectionOptionName>
+  <ProgressiveCollapseBarTapeName>А240 Ø4</ProgressiveCollapseBarTapeName>
+  <ProgressiveCollapseColumnCenterOffset>0</ProgressiveCollapseColumnCenterOffset>
+  <ProgressiveCollapseUpLength>0</ProgressiveCollapseUpLength>
+  <ProgressiveCollapseBottomIndent>0</ProgressiveCollapseBottomIndent>
+  <ProgressiveCollapseSideLength>0</ProgressiveCollapseSideLength>
+  <MechanicalConnectionOptionName>radioButton_CouplingConnection</MechanicalConnectionOptionName>
   <WeldedConnectionFamilyName>ВанночкаДляСварки_ГОСТ 14098-2014</WeldedConnectionFamilyName>
   <CouplingConnectionFamilyName>МуфтаАрматурная_ТипС_RECO</CouplingConnectionFamilyName>
 </SquareColumnsReinforcementSettingsT6>

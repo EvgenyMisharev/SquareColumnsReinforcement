@@ -970,13 +970,13 @@ namespace SquareColumnsReinforcement
                         && squareColumnsReinforcementWPF.SectionChangeChecked == false
                         && squareColumnsReinforcementWPF.OverlapTransitionChecked == true)
                     {
-                        //Точки для построения кривфх основных угловых стержней удлиненных
+                        //Точки для построения кривых основных угловых стержней удлиненных
                         XYZ rebar_p1L = new XYZ(Math.Round(columnProperty.ColumnBasePoint.X, 6), Math.Round(columnProperty.ColumnBasePoint.Y, 6), Math.Round(columnProperty.ColumnBasePoint.Z + firstRebarOutletsLength, 6));
                         XYZ rebar_p2L = new XYZ(Math.Round(rebar_p1L.X, 6), Math.Round(rebar_p1L.Y, 6), Math.Round(rebar_p1L.Z + columnProperty.ColumnLength - firstRebarOutletsLength, 6));
                         XYZ rebar_p3L = new XYZ(Math.Round(rebar_p2L.X + firstMainBarDiam, 6), Math.Round(rebar_p2L.Y, 6), Math.Round(rebar_p2L.Z + floorThickness, 6));
                         XYZ rebar_p4L = new XYZ(Math.Round(rebar_p3L.X, 6), Math.Round(rebar_p3L.Y, 6), Math.Round(rebar_p3L.Z + firstRebarOutletsLength, 6));
 
-                        //Точки для построения кривфх основных боковых стержней укороченных
+                        //Точки для построения кривых основных боковых стержней укороченных
                         XYZ rebar_p1S = new XYZ(Math.Round(columnProperty.ColumnBasePoint.X, 6), Math.Round(columnProperty.ColumnBasePoint.Y, 6), Math.Round(columnProperty.ColumnBasePoint.Z + secondRebarOutletsLength, 6));
                         XYZ rebar_p2S = new XYZ(Math.Round(rebar_p1S.X, 6), Math.Round(rebar_p1S.Y, 6), Math.Round(rebar_p1S.Z + columnProperty.ColumnLength - secondRebarOutletsLength, 6));
                         XYZ rebar_p3S = new XYZ(Math.Round(rebar_p2S.X + secondMainBarDiam, 6), Math.Round(rebar_p2S.Y, 6), Math.Round(rebar_p2S.Z + floorThickness, 6));

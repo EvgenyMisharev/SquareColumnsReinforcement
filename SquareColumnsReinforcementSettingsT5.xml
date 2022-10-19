@@ -14,9 +14,9 @@
   <FirstLowerRebarOffset>100</FirstLowerRebarOffset>
   <FirstLeftRebarOffset>100</FirstLeftRebarOffset>
   <FirstRightRebarOffset>100</FirstRightRebarOffset>
-  <RebarConnectionOptionName>radioButton_Mechanical</RebarConnectionOptionName>
+  <RebarConnectionOptionName>radioButton_Overlap</RebarConnectionOptionName>
   <DeepenRebarChecked>false</DeepenRebarChecked>
-  <DeepenRebar>600</DeepenRebar>
+  <DeepenRebar>0</DeepenRebar>
   <OverlapTransitionChecked>false</OverlapTransitionChecked>
   <FirstRebarOutletsLength>1200</FirstRebarOutletsLength>
   <SecondRebarOutletsLength>800</SecondRebarOutletsLength>
@@ -28,15 +28,15 @@
   <FloorThickness>200</FloorThickness>
   <FirstStirrupButtomOffset>50</FirstStirrupButtomOffset>
   <BendInSlabChecked>false</BendInSlabChecked>
-  <BendInSlab>50</BendInSlab>
-  <SectionChangeChecked>true</SectionChangeChecked>
-  <SectionChange>50</SectionChange>
+  <BendInSlab>0</BendInSlab>
+  <SectionChangeChecked>false</SectionChangeChecked>
+  <SectionChange>0</SectionChange>
   <ProgressiveCollapseBarIntoSlabChecked>false</ProgressiveCollapseBarIntoSlabChecked>
   <ProgressiveCollapseBarTapeName>А240 Ø4</ProgressiveCollapseBarTapeName>
-  <ProgressiveCollapseColumnCenterOffset>100</ProgressiveCollapseColumnCenterOffset>
-  <ProgressiveCollapseUpLength>1200</ProgressiveCollapseUpLength>
-  <ProgressiveCollapseBottomIndent>35</ProgressiveCollapseBottomIndent>
-  <ProgressiveCollapseSideLength>1200</ProgressiveCollapseSideLength>
+  <ProgressiveCollapseColumnCenterOffset>0</ProgressiveCollapseColumnCenterOffset>
+  <ProgressiveCollapseUpLength>0</ProgressiveCollapseUpLength>
+  <ProgressiveCollapseBottomIndent>0</ProgressiveCollapseBottomIndent>
+  <ProgressiveCollapseSideLength>0</ProgressiveCollapseSideLength>
   <MechanicalConnectionOptionName>radioButton_CouplingConnection</MechanicalConnectionOptionName>
   <WeldedConnectionFamilyName>ВанночкаДляСварки_ГОСТ 14098-2014</WeldedConnectionFamilyName>
   <CouplingConnectionFamilyName>МуфтаАрматурная_ТипС_RECO</CouplingConnectionFamilyName>

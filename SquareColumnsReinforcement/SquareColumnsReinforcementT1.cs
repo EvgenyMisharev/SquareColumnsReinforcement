@@ -401,11 +401,11 @@ namespace SquareColumnsReinforcement
                         && squareColumnsReinforcementWPF.OverlapTransitionChecked == false 
                         && squareColumnsReinforcementWPF.BendInSlabChecked == false)
                     {
-                        //Точки для построения кривфх стержня удлиненного
+                        //Точки для построения кривых стержня удлиненного
                         XYZ rebar_p1L = new XYZ(Math.Round(columnProperty.ColumnBasePoint.X, 6), Math.Round(columnProperty.ColumnBasePoint.Y, 6), Math.Round(columnProperty.ColumnBasePoint.Z + firstRebarOutletsLength, 6));
                         XYZ rebar_p2L = new XYZ(Math.Round(rebar_p1L.X, 6), Math.Round(rebar_p1L.Y, 6), Math.Round(rebar_p1L.Z + columnProperty.ColumnLength + floorThickness, 6));
 
-                        //Точки для построения кривфх стержня укороченного
+                        //Точки для построения кривых стержня укороченного
                         XYZ rebar_p1S = new XYZ(Math.Round(columnProperty.ColumnBasePoint.X, 6), Math.Round(columnProperty.ColumnBasePoint.Y, 6), Math.Round(columnProperty.ColumnBasePoint.Z + secondRebarOutletsLength, 6));
                         XYZ rebar_p2S = new XYZ(Math.Round(rebar_p1S.X, 6), Math.Round(rebar_p1S.Y, 6), Math.Round(rebar_p1S.Z + columnProperty.ColumnLength + floorThickness, 6));
 
