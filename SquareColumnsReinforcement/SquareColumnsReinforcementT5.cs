@@ -3496,16 +3496,25 @@ namespace SquareColumnsReinforcement
                         rebarCurvesPC.Add(line2PC);
 
                         //Правый
-                        Rebar rebarPC_1 = Rebar.CreateFromCurvesAndShape(doc
-                            , form11
-                            , progressiveCollapseBarTape
-                            , null
-                            , null
-                            , column
-                            , new XYZ(0, 1, 0)
-                            , rebarCurvesPC
-                            , RebarHookOrientation.Right
-                            , RebarHookOrientation.Right);
+                        Rebar rebarPC_1 = null;
+                        try
+                        {
+                            rebarPC_1 = Rebar.CreateFromCurvesAndShape(doc
+                                , form11
+                                , progressiveCollapseBarTape
+                                , null
+                                , null
+                                , column
+                                , new XYZ(0, 1, 0)
+                                , rebarCurvesPC
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+                        }
+                        catch
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать дополнительный Г-образный стержень в основании колонны! Возможно выбран некорректный тип формы 11!");
+                            return Result.Cancelled;
+                        }
 
                         if (rebarPC_1 == null)
                         {
