@@ -90,37 +90,49 @@ namespace SquareColumnsReinforcement
             switch (squareColumnsReinforcementWPF.SelectedReinforcementTypeButtonName)
             {
                 case "button_Type1":
-                    SquareColumnsReinforcementT1 squareColumnsReinforcementT1 = new SquareColumnsReinforcementT1(doc
+                    SquareColumnsReinforcementT1 squareColumnsReinforcementT1 = new SquareColumnsReinforcementT1();
+                    squareColumnsReinforcementT1.Execute(commandData.Application
+                        , doc
                         , columnsList
                         , squareColumnsReinforcementWPF);
                     break;
 
                 case "button_Type2":
-                    SquareColumnsReinforcementT2 squareColumnsReinforcementT2 = new SquareColumnsReinforcementT2(doc
+                    SquareColumnsReinforcementT2 squareColumnsReinforcementT2 = new SquareColumnsReinforcementT2();
+                    squareColumnsReinforcementT2.Execute(commandData.Application
+                        , doc
                         , columnsList
                         , squareColumnsReinforcementWPF);
                     break;
 
                 case "button_Type3":
-                    SquareColumnsReinforcementT3 squareColumnsReinforcementT3 = new SquareColumnsReinforcementT3(doc
+                    SquareColumnsReinforcementT3 squareColumnsReinforcementT3 = new SquareColumnsReinforcementT3();
+                    squareColumnsReinforcementT3.Execute(commandData.Application
+                        , doc
                         , columnsList
                         , squareColumnsReinforcementWPF);
                     break;
 
                 case "button_Type4":
-                    SquareColumnsReinforcementT4 squareColumnsReinforcementT4 = new SquareColumnsReinforcementT4(doc
+                    SquareColumnsReinforcementT4 squareColumnsReinforcementT4 = new SquareColumnsReinforcementT4();
+                    squareColumnsReinforcementT4.Execute(commandData.Application
+                        , doc
                         , columnsList
                         , squareColumnsReinforcementWPF);
                     break;
 
                 case "button_Type5":
-                    SquareColumnsReinforcementT5 squareColumnsReinforcementT5 = new SquareColumnsReinforcementT5(doc
+                    SquareColumnsReinforcementT5 squareColumnsReinforcementT5 = new SquareColumnsReinforcementT5();
+                    squareColumnsReinforcementT5.Execute(commandData.Application
+                        , doc
                         , columnsList
                         , squareColumnsReinforcementWPF);
                     break;
 
                 case "button_Type6":
-                    SquareColumnsReinforcementT6 squareColumnsReinforcementT6 = new SquareColumnsReinforcementT6(doc
+                    SquareColumnsReinforcementT6 squareColumnsReinforcementT6 = new SquareColumnsReinforcementT6();
+                    squareColumnsReinforcementT6.Execute(commandData.Application
+                        , doc
                         , columnsList
                         , squareColumnsReinforcementWPF);
                     break;

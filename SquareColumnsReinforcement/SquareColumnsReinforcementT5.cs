@@ -1,16 +1,16 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Structure;
+using Autodesk.Revit.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SquareColumnsReinforcement
 {
-    public class SquareColumnsReinforcementT5
+    public class SquareColumnsReinforcementT5 : IExternalCommand
     {
-        public SquareColumnsReinforcementT5(Document doc
+        public Result Execute(UIApplication uiapp
+            , Document doc
             , List<FamilyInstance> columnsList
             , SquareColumnsReinforcementWPF squareColumnsReinforcementWPF)
         {
@@ -78,55 +78,58 @@ namespace SquareColumnsReinforcement
 
             FamilySymbol firstMechanicalConnectionFamilySymbol = null;
             FamilySymbol secondMechanicalConnectionFamilySymbol = null;
-            if (squareColumnsReinforcementWPF.MechanicalConnectionOptionName == "radioButton_WeldedConnection")
+            if (squareColumnsReinforcementWPF.RebarConnectionOptionName == "radioButton_Mechanical")
             {
-                List<ElementId> weldedConnectionElementIds = squareColumnsReinforcementWPF.WeldedConnectionFamily.GetFamilySymbolIds().ToList();
-                List<FamilySymbol> weldedConnectionFamilySymbolList = new List<FamilySymbol>();
-                foreach (ElementId id in weldedConnectionElementIds)
+                if (squareColumnsReinforcementWPF.MechanicalConnectionOptionName == "radioButton_WeldedConnection")
                 {
-                    weldedConnectionFamilySymbolList.Add(doc.GetElement(id) as FamilySymbol);
-                }
-                weldedConnectionFamilySymbolList = weldedConnectionFamilySymbolList.OrderBy(fs => fs.get_Parameter(diamGuid).AsDouble()).ToList();
-                foreach (FamilySymbol fs in weldedConnectionFamilySymbolList)
-                {
-                    if (Math.Round(fs.get_Parameter(diamGuid).AsDouble(), 6) == Math.Round(firstMainBarDiam, 6))
+                    List<ElementId> weldedConnectionElementIds = squareColumnsReinforcementWPF.WeldedConnectionFamily.GetFamilySymbolIds().ToList();
+                    List<FamilySymbol> weldedConnectionFamilySymbolList = new List<FamilySymbol>();
+                    foreach (ElementId id in weldedConnectionElementIds)
                     {
-                        firstMechanicalConnectionFamilySymbol = fs;
-                        break;
+                        weldedConnectionFamilySymbolList.Add(doc.GetElement(id) as FamilySymbol);
+                    }
+                    weldedConnectionFamilySymbolList = weldedConnectionFamilySymbolList.OrderBy(fs => fs.get_Parameter(diamGuid).AsDouble()).ToList();
+                    foreach (FamilySymbol fs in weldedConnectionFamilySymbolList)
+                    {
+                        if (Math.Round(fs.get_Parameter(diamGuid).AsDouble(), 6) == Math.Round(firstMainBarDiam, 6))
+                        {
+                            firstMechanicalConnectionFamilySymbol = fs;
+                            break;
+                        }
+                    }
+                    foreach (FamilySymbol fs in weldedConnectionFamilySymbolList)
+                    {
+                        if (Math.Round(fs.get_Parameter(diamGuid).AsDouble(), 6) == Math.Round(secondMainBarDiam, 6))
+                        {
+                            secondMechanicalConnectionFamilySymbol = fs;
+                            break;
+                        }
                     }
                 }
-                foreach (FamilySymbol fs in weldedConnectionFamilySymbolList)
+                else
                 {
-                    if (Math.Round(fs.get_Parameter(diamGuid).AsDouble(), 6) == Math.Round(secondMainBarDiam, 6))
+                    List<ElementId> couplingConnectionElementIds = squareColumnsReinforcementWPF.CouplingConnectionFamily.GetFamilySymbolIds().ToList();
+                    List<FamilySymbol> couplingConnectionFamilySymbolList = new List<FamilySymbol>();
+                    foreach (ElementId id in couplingConnectionElementIds)
                     {
-                        secondMechanicalConnectionFamilySymbol = fs;
-                        break;
+                        couplingConnectionFamilySymbolList.Add(doc.GetElement(id) as FamilySymbol);
                     }
-                }
-            }
-            else
-            {
-                List<ElementId> couplingConnectionElementIds = squareColumnsReinforcementWPF.CouplingConnectionFamily.GetFamilySymbolIds().ToList();
-                List<FamilySymbol> couplingConnectionFamilySymbolList = new List<FamilySymbol>();
-                foreach (ElementId id in couplingConnectionElementIds)
-                {
-                    couplingConnectionFamilySymbolList.Add(doc.GetElement(id) as FamilySymbol);
-                }
-                couplingConnectionFamilySymbolList = couplingConnectionFamilySymbolList.OrderBy(fs => fs.get_Parameter(diamGuid).AsDouble()).ToList();
-                foreach (FamilySymbol fs in couplingConnectionFamilySymbolList)
-                {
-                    if (Math.Round(fs.get_Parameter(diamGuid).AsDouble(), 6) == Math.Round(firstMainBarDiam, 6))
+                    couplingConnectionFamilySymbolList = couplingConnectionFamilySymbolList.OrderBy(fs => fs.get_Parameter(diamGuid).AsDouble()).ToList();
+                    foreach (FamilySymbol fs in couplingConnectionFamilySymbolList)
                     {
-                        firstMechanicalConnectionFamilySymbol = fs;
-                        break;
+                        if (Math.Round(fs.get_Parameter(diamGuid).AsDouble(), 6) == Math.Round(firstMainBarDiam, 6))
+                        {
+                            firstMechanicalConnectionFamilySymbol = fs;
+                            break;
+                        }
                     }
-                }
-                foreach (FamilySymbol fs in couplingConnectionFamilySymbolList)
-                {
-                    if (Math.Round(fs.get_Parameter(diamGuid).AsDouble(), 6) == Math.Round(secondMainBarDiam, 6))
+                    foreach (FamilySymbol fs in couplingConnectionFamilySymbolList)
                     {
-                        secondMechanicalConnectionFamilySymbol = fs;
-                        break;
+                        if (Math.Round(fs.get_Parameter(diamGuid).AsDouble(), 6) == Math.Round(secondMainBarDiam, 6))
+                        {
+                            secondMechanicalConnectionFamilySymbol = fs;
+                            break;
+                        }
                     }
                 }
             }
@@ -134,8 +137,38 @@ namespace SquareColumnsReinforcement
             using (Transaction t = new Transaction(doc))
             {
                 t.Start("Армирование колонн - Тип 5");
-                firstMechanicalConnectionFamilySymbol.Activate();
-                secondMechanicalConnectionFamilySymbol.Activate();
+                if (squareColumnsReinforcementWPF.RebarConnectionOptionName == "radioButton_Mechanical")
+                {
+                    if (firstMechanicalConnectionFamilySymbol == null)
+                    {
+                        if (squareColumnsReinforcementWPF.MechanicalConnectionOptionName == "radioButton_WeldedConnection")
+                        {
+                            TaskDialog.Show("Revit", $"Для угловых стержней не найден подходящий тип соединения {squareColumnsReinforcementWPF.WeldedConnectionFamily.Name}! Уваличте диаметр стержней или измените тип соединения!");
+                            return Result.Cancelled;
+                        }
+                        else
+                        {
+                            TaskDialog.Show("Revit", $"Для угловых стержней не найден подходящий тип соединения {squareColumnsReinforcementWPF.CouplingConnectionFamily.Name}! Уваличте диаметр стержней или измените тип соединения!");
+                            return Result.Cancelled;
+                        }
+                    }
+                    else if (secondMechanicalConnectionFamilySymbol == null)
+                    {
+                        if (squareColumnsReinforcementWPF.MechanicalConnectionOptionName == "radioButton_WeldedConnection")
+                        {
+                            TaskDialog.Show("Revit", $"Для боковых стержней не найден подходящий тип соединения {squareColumnsReinforcementWPF.WeldedConnectionFamily.Name}! Уваличте диаметр стержней или измените тип соединения!");
+                            return Result.Cancelled;
+                        }
+                        else
+                        {
+                            TaskDialog.Show("Revit", $"Для боковых стержней не найден подходящий тип соединения {squareColumnsReinforcementWPF.CouplingConnectionFamily.Name}! Уваличте диаметр стержней или измените тип соединения!");
+                            return Result.Cancelled;
+                        }
+                    }
+                    firstMechanicalConnectionFamilySymbol.Activate();
+                    secondMechanicalConnectionFamilySymbol.Activate();
+                }
+
                 foreach (FamilyInstance column in columnsList)
                 {
                     ColumnPropertyCollector columnProperty = new ColumnPropertyCollector(doc, column);
@@ -157,7 +190,7 @@ namespace SquareColumnsReinforcement
                         {
                             rebar_p1L = new XYZ(Math.Round(columnProperty.ColumnBasePoint.X, 6), Math.Round(columnProperty.ColumnBasePoint.Y, 6), Math.Round(columnProperty.ColumnBasePoint.Z - deepenRebar, 6));
                             rebar_p2L = new XYZ(Math.Round(rebar_p1L.X, 6), Math.Round(rebar_p1L.Y, 6), Math.Round(rebar_p1L.Z + deepenRebar + columnProperty.ColumnLength, 6));
-                        }   
+                        }
                         else
                         {
                             rebar_p1L = new XYZ(Math.Round(columnProperty.ColumnBasePoint.X, 6), Math.Round(columnProperty.ColumnBasePoint.Y, 6), Math.Round(columnProperty.ColumnBasePoint.Z, 6));
@@ -173,7 +206,7 @@ namespace SquareColumnsReinforcement
                         {
                             rebar_p1AL = new XYZ(Math.Round(columnProperty.ColumnBasePoint.X, 6), Math.Round(columnProperty.ColumnBasePoint.Y, 6), Math.Round(columnProperty.ColumnBasePoint.Z - deepenRebar, 6));
                             rebar_p2AL = new XYZ(Math.Round(rebar_p1AL.X, 6), Math.Round(rebar_p1AL.Y, 6), Math.Round(rebar_p1AL.Z + deepenRebar + columnProperty.ColumnLength, 6));
-                        }   
+                        }
                         else
                         {
                             rebar_p1AL = new XYZ(Math.Round(columnProperty.ColumnBasePoint.X, 6), Math.Round(columnProperty.ColumnBasePoint.Y, 6), Math.Round(columnProperty.ColumnBasePoint.Z, 6));
@@ -235,15 +268,22 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
-                        XYZ newPlaсeСolumnMainRebar_1 = new XYZ(-columnProperty.ColumnSectionHeight / 2 
-                            + coverDistance 
+
+                        if (columnMainRebar_1 == null)
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать Z-образный стержень! Возможно выбран некорректный тип формы 26!");
+                            return Result.Cancelled;
+                        }
+
+                        XYZ newPlaсeСolumnMainRebar_1 = new XYZ(-columnProperty.ColumnSectionHeight / 2
+                            + coverDistance
                             + firstMainBarDiam / 2
                             , -columnProperty.ColumnSectionWidth / 2
-                            + coverDistance 
+                            + coverDistance
                             + firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1.Id, newPlaсeСolumnMainRebar_1);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -255,15 +295,15 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
-                        XYZ newPlaсeСolumnRebar_2 = new XYZ(-columnProperty.ColumnSectionHeight / 2 
+                        XYZ newPlaсeСolumnRebar_2 = new XYZ(-columnProperty.ColumnSectionHeight / 2
                             + coverDistance
                             + firstMainBarDiam / 2
-                            , columnProperty.ColumnSectionWidth / 2 
-                            - coverDistance 
+                            , columnProperty.ColumnSectionWidth / 2
+                            - coverDistance
                             - firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2.Id, newPlaсeСolumnRebar_2);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -275,7 +315,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -284,10 +324,10 @@ namespace SquareColumnsReinforcement
                         Line rotateLine = Line.CreateBound(rotate1_p1, rotate1_p2);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3.Id, rotateLine, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_3 = new XYZ(columnProperty.ColumnSectionHeight / 2
-                            - coverDistance 
+                            - coverDistance
                             - firstMainBarDiam / 2
                             , columnProperty.ColumnSectionWidth / 2
-                            - coverDistance 
+                            - coverDistance
                             - firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3.Id, newPlaсeСolumnRebar_3);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -299,16 +339,16 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotateLine, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_4 = new XYZ(columnProperty.ColumnSectionHeight / 2
-                            - coverDistance 
+                            - coverDistance
                             - firstMainBarDiam / 2
                             , -columnProperty.ColumnSectionWidth / 2
-                            + coverDistance 
+                            + coverDistance
                             + firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4.Id, newPlaсeСolumnRebar_4);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -320,13 +360,13 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1A.Id, rotateLine, 90 * (Math.PI / 180));
-                        XYZ newPlaсeСolumnMainRebar_1A = new XYZ(-columnProperty.ColumnSectionHeight / 2 
-                            + coverDistance 
+                        XYZ newPlaсeСolumnMainRebar_1A = new XYZ(-columnProperty.ColumnSectionHeight / 2
+                            + coverDistance
                             + secondMainBarDiam / 2
                             , -firstLowerRebarOffset, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1A.Id, newPlaсeСolumnMainRebar_1A);
@@ -339,7 +379,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -355,7 +395,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -371,7 +411,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -387,7 +427,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -403,7 +443,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -419,7 +459,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -434,7 +474,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -449,7 +489,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -464,7 +504,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -479,7 +519,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -494,7 +534,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -561,21 +601,27 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0 ,1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
+
+                        if (columnMainRebar_1 == null)
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать Г-образный стержень! Возможно выбран некорректный тип формы 11!");
+                            return Result.Cancelled;
+                        }
 
                         XYZ rotate1_p1 = new XYZ(rebar_p1L.X, rebar_p1L.Y, rebar_p1L.Z);
                         XYZ rotate1_p2 = new XYZ(rebar_p1L.X, rebar_p1L.Y, rebar_p1L.Z + 1);
                         Line rotateLine = Line.CreateBound(rotate1_p1, rotate1_p2);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1.Id, rotateLine, 180 * (Math.PI / 180));
 
-                        XYZ newPlaсeСolumnMainRebar_1 = new XYZ(-columnProperty.ColumnSectionHeight / 2 
-                            + coverDistance 
+                        XYZ newPlaсeСolumnMainRebar_1 = new XYZ(-columnProperty.ColumnSectionHeight / 2
+                            + coverDistance
                             + firstMainBarDiam / 2
-                            , -columnProperty.ColumnSectionWidth / 2 
-                            + coverDistance 
+                            , -columnProperty.ColumnSectionWidth / 2
+                            + coverDistance
                             + firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1.Id, newPlaсeСolumnMainRebar_1);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -587,17 +633,17 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0 ,1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
 
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotateLine, 180 * (Math.PI / 180));
-                        XYZ newPlaсeСolumnRebar_2 = new XYZ(-columnProperty.ColumnSectionHeight / 2 
+                        XYZ newPlaсeСolumnRebar_2 = new XYZ(-columnProperty.ColumnSectionHeight / 2
                             + coverDistance
                             + firstMainBarDiam / 2
-                            , columnProperty.ColumnSectionWidth / 2 
-                            - coverDistance 
+                            , columnProperty.ColumnSectionWidth / 2
+                            - coverDistance
                             - firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2.Id, newPlaсeСolumnRebar_2);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -609,16 +655,16 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0 ,1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
 
-                        XYZ newPlaсeСolumnRebar_3 = new XYZ(columnProperty.ColumnSectionHeight / 2 
-                            - coverDistance 
+                        XYZ newPlaсeСolumnRebar_3 = new XYZ(columnProperty.ColumnSectionHeight / 2
+                            - coverDistance
                             - firstMainBarDiam / 2
-                            , columnProperty.ColumnSectionWidth / 2 
-                            - coverDistance 
+                            , columnProperty.ColumnSectionWidth / 2
+                            - coverDistance
                             - firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3.Id, newPlaсeСolumnRebar_3);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -630,15 +676,15 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0 ,1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
 
                         XYZ newPlaсeСolumnRebar_4 = new XYZ(columnProperty.ColumnSectionHeight / 2
-                            - coverDistance 
+                            - coverDistance
                             - firstMainBarDiam / 2
-                            , -columnProperty.ColumnSectionWidth / 2 
+                            , -columnProperty.ColumnSectionWidth / 2
                             + coverDistance
                             + firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4.Id, newPlaсeСolumnRebar_4);
@@ -651,7 +697,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0 ,1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -667,7 +713,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0 ,1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -683,7 +729,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0 ,1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -699,7 +745,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0 ,1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -715,7 +761,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0 ,1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -731,7 +777,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0 ,1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -747,7 +793,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0 ,1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -764,7 +810,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0 ,1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -781,7 +827,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0 ,1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -798,7 +844,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0 ,1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -815,7 +861,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0 ,1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -832,7 +878,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0 ,1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -879,15 +925,22 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
+
+                        if (columnMainRebar_1 == null)
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать прямой стержень! Возможно выбран некорректный тип формы 01!");
+                            return Result.Cancelled;
+                        }
+
                         XYZ newPlaсeСolumnMainRebar_1 = new XYZ(-columnProperty.ColumnSectionHeight / 2
-                            + coverDistance 
+                            + coverDistance
                             + firstMainBarDiam / 2
                             , -columnProperty.ColumnSectionWidth / 2
-                            + coverDistance 
+                            + coverDistance
                             + firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1.Id, newPlaсeСolumnMainRebar_1);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -906,15 +959,15 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
-                        XYZ newPlaсeСolumnMainRebar_2 = new XYZ(-columnProperty.ColumnSectionHeight / 2 
-                            + coverDistance 
+                        XYZ newPlaсeСolumnMainRebar_2 = new XYZ(-columnProperty.ColumnSectionHeight / 2
+                            + coverDistance
                             + firstMainBarDiam / 2
-                            , columnProperty.ColumnSectionWidth / 2 
-                            - coverDistance 
+                            , columnProperty.ColumnSectionWidth / 2
+                            - coverDistance
                             - firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2.Id, newPlaсeСolumnMainRebar_2);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -933,15 +986,15 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_3 = new XYZ(columnProperty.ColumnSectionHeight / 2
-                            - coverDistance 
+                            - coverDistance
                             - firstMainBarDiam / 2
-                            , columnProperty.ColumnSectionWidth / 2 
-                            - coverDistance 
+                            , columnProperty.ColumnSectionWidth / 2
+                            - coverDistance
                             - firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3.Id, newPlaсeСolumnMainRebar_3);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -960,15 +1013,15 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_4 = new XYZ(columnProperty.ColumnSectionHeight / 2
                             - coverDistance
                             - firstMainBarDiam / 2
-                            , -columnProperty.ColumnSectionWidth / 2 
-                            + coverDistance 
+                            , -columnProperty.ColumnSectionWidth / 2
+                            + coverDistance
                             + firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4.Id, newPlaсeСolumnMainRebar_4);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -988,7 +1041,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1010,7 +1063,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1032,7 +1085,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1055,7 +1108,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1077,7 +1130,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1099,7 +1152,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1122,7 +1175,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1144,7 +1197,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1166,7 +1219,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1189,7 +1242,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1211,7 +1264,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1233,7 +1286,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1301,21 +1354,27 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
+
+                        if (columnMainRebar_1 == null)
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать Г-образный стержень! Возможно выбран некорректный тип формы 11!");
+                            return Result.Cancelled;
+                        }
 
                         XYZ rotate1_p1 = new XYZ(rebar_p1L.X, rebar_p1L.Y, rebar_p1L.Z);
                         XYZ rotate1_p2 = new XYZ(rebar_p1L.X, rebar_p1L.Y, rebar_p1L.Z + 1);
                         Line rotateLine = Line.CreateBound(rotate1_p1, rotate1_p2);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1.Id, rotateLine, 180 * (Math.PI / 180));
 
-                        XYZ newPlaсeСolumnMainRebar_1 = new XYZ(-columnProperty.ColumnSectionHeight / 2 
+                        XYZ newPlaсeСolumnMainRebar_1 = new XYZ(-columnProperty.ColumnSectionHeight / 2
                             + coverDistance
                             + firstMainBarDiam / 2
-                            , -columnProperty.ColumnSectionWidth / 2 
-                            + coverDistance 
+                            , -columnProperty.ColumnSectionWidth / 2
+                            + coverDistance
                             + firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1.Id, newPlaсeСolumnMainRebar_1);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -1327,17 +1386,17 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
 
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotateLine, 180 * (Math.PI / 180));
-                        XYZ newPlaсeСolumnMainRebar_2 = new XYZ(-columnProperty.ColumnSectionHeight / 2 
-                            + coverDistance 
+                        XYZ newPlaсeСolumnMainRebar_2 = new XYZ(-columnProperty.ColumnSectionHeight / 2
+                            + coverDistance
                             + firstMainBarDiam / 2
-                            , columnProperty.ColumnSectionWidth / 2 
-                            - coverDistance 
+                            , columnProperty.ColumnSectionWidth / 2
+                            - coverDistance
                             - firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2.Id, newPlaсeСolumnMainRebar_2);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -1349,14 +1408,14 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_3 = new XYZ(columnProperty.ColumnSectionHeight / 2
-                            - coverDistance 
+                            - coverDistance
                             - firstMainBarDiam / 2
-                            , columnProperty.ColumnSectionWidth / 2 
+                            , columnProperty.ColumnSectionWidth / 2
                             - coverDistance
                             - firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3.Id, newPlaсeСolumnMainRebar_3);
@@ -1369,15 +1428,15 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
-                        XYZ newPlaсeСolumnMainRebar_4 = new XYZ(columnProperty.ColumnSectionHeight / 2 
+                        XYZ newPlaсeСolumnMainRebar_4 = new XYZ(columnProperty.ColumnSectionHeight / 2
                             - coverDistance
                             - firstMainBarDiam / 2
-                            , -columnProperty.ColumnSectionWidth / 2 
-                            + coverDistance 
+                            , -columnProperty.ColumnSectionWidth / 2
+                            + coverDistance
                             + firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4.Id, newPlaсeСolumnMainRebar_4);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -1390,7 +1449,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1407,7 +1466,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1424,7 +1483,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1442,7 +1501,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1457,7 +1516,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1472,7 +1531,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1488,7 +1547,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1505,7 +1564,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1522,7 +1581,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1540,7 +1599,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1557,7 +1616,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1574,7 +1633,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1592,19 +1651,19 @@ namespace SquareColumnsReinforcement
                     {
                         //Точки для построения кривых основных угловых стержней с двойным нахлестом
                         XYZ rebar_p1L = new XYZ(Math.Round(columnProperty.ColumnBasePoint.X, 6), Math.Round(columnProperty.ColumnBasePoint.Y, 6), Math.Round(columnProperty.ColumnBasePoint.Z + firstRebarOutletsLength, 6));
-                        XYZ rebar_p2L = new XYZ(Math.Round(rebar_p1L.X, 6), Math.Round(rebar_p1L.Y, 6), Math.Round(rebar_p1L.Z +  columnProperty.ColumnLength - firstRebarOutletsLength, 6));
+                        XYZ rebar_p2L = new XYZ(Math.Round(rebar_p1L.X, 6), Math.Round(rebar_p1L.Y, 6), Math.Round(rebar_p1L.Z + columnProperty.ColumnLength - firstRebarOutletsLength, 6));
                         XYZ rebar_p3L = new XYZ(Math.Round(rebar_p2L.X + firstMainBarDiam, 6), Math.Round(rebar_p2L.Y, 6), Math.Round(rebar_p2L.Z + floorThickness, 6));
                         XYZ rebar_p4L = new XYZ(Math.Round(rebar_p3L.X, 6), Math.Round(rebar_p3L.Y, 6), Math.Round(rebar_p3L.Z + firstRebarOutletsLength, 6));
 
                         //Точки для построения кривых основных боковых стержней с двойным нахлестом
                         XYZ rebar_p1AL = new XYZ(Math.Round(columnProperty.ColumnBasePoint.X, 6), Math.Round(columnProperty.ColumnBasePoint.Y, 6), Math.Round(columnProperty.ColumnBasePoint.Z + firstRebarOutletsLength, 6));
-                        XYZ rebar_p2AL = new XYZ(Math.Round(rebar_p1AL.X, 6), Math.Round(rebar_p1AL.Y, 6), Math.Round(rebar_p1AL.Z +  columnProperty.ColumnLength - firstRebarOutletsLength, 6));
+                        XYZ rebar_p2AL = new XYZ(Math.Round(rebar_p1AL.X, 6), Math.Round(rebar_p1AL.Y, 6), Math.Round(rebar_p1AL.Z + columnProperty.ColumnLength - firstRebarOutletsLength, 6));
                         XYZ rebar_p3AL = new XYZ(Math.Round(rebar_p2AL.X + secondMainBarDiam, 6), Math.Round(rebar_p2AL.Y, 6), Math.Round(rebar_p2AL.Z + floorThickness, 6));
                         XYZ rebar_p4AL = new XYZ(Math.Round(rebar_p3AL.X, 6), Math.Round(rebar_p3AL.Y, 6), Math.Round(rebar_p3AL.Z + firstRebarOutletsLength, 6));
 
                         //Точки для построения кривых основных боковых стержней с одинарным нахлестом
                         XYZ rebar_p1AS = new XYZ(Math.Round(columnProperty.ColumnBasePoint.X, 6), Math.Round(columnProperty.ColumnBasePoint.Y, 6), Math.Round(columnProperty.ColumnBasePoint.Z + secondRebarOutletsLength, 6));
-                        XYZ rebar_p2AS = new XYZ(Math.Round(rebar_p1AS.X, 6), Math.Round(rebar_p1AS.Y, 6), Math.Round(rebar_p1AS.Z +  columnProperty.ColumnLength - secondRebarOutletsLength, 6));
+                        XYZ rebar_p2AS = new XYZ(Math.Round(rebar_p1AS.X, 6), Math.Round(rebar_p1AS.Y, 6), Math.Round(rebar_p1AS.Z + columnProperty.ColumnLength - secondRebarOutletsLength, 6));
                         XYZ rebar_p3AS = new XYZ(Math.Round(rebar_p2AS.X + secondMainBarDiam, 6), Math.Round(rebar_p2AS.Y, 6), Math.Round(rebar_p2AS.Z + floorThickness, 6));
                         XYZ rebar_p4AS = new XYZ(Math.Round(rebar_p3AS.X, 6), Math.Round(rebar_p3AS.Y, 6), Math.Round(rebar_p3AS.Z + secondRebarOutletsLength, 6));
 
@@ -1645,14 +1704,21 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
-                        XYZ newPlaсeСolumnMainRebar_1 = new XYZ(-columnProperty.ColumnSectionHeight / 2 
-                            + coverDistance 
+
+                        if (columnMainRebar_1 == null)
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать Z-образный стержень! Возможно выбран некорректный тип формы 26!");
+                            return Result.Cancelled;
+                        }
+
+                        XYZ newPlaсeСolumnMainRebar_1 = new XYZ(-columnProperty.ColumnSectionHeight / 2
+                            + coverDistance
                             + firstMainBarDiam / 2
-                            , -columnProperty.ColumnSectionWidth / 2 
+                            , -columnProperty.ColumnSectionWidth / 2
                             + coverDistance
                             + firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1.Id, newPlaсeСolumnMainRebar_1);
@@ -1665,15 +1731,15 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnRebar_2 = new XYZ(-columnProperty.ColumnSectionHeight / 2
-                            + coverDistance 
+                            + coverDistance
                             + firstMainBarDiam / 2
                             , columnProperty.ColumnSectionWidth / 2
-                            - coverDistance 
+                            - coverDistance
                             - firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2.Id, newPlaсeСolumnRebar_2);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -1685,7 +1751,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1697,7 +1763,7 @@ namespace SquareColumnsReinforcement
                             - coverDistance
                             - firstMainBarDiam / 2
                             , columnProperty.ColumnSectionWidth / 2
-                            - coverDistance 
+                            - coverDistance
                             - firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3.Id, newPlaсeСolumnRebar_3);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -1709,7 +1775,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1717,8 +1783,8 @@ namespace SquareColumnsReinforcement
                         XYZ newPlaсeСolumnRebar_4 = new XYZ(columnProperty.ColumnSectionHeight / 2
                             - coverDistance
                             - firstMainBarDiam / 2
-                            , -columnProperty.ColumnSectionWidth / 2 
-                            + coverDistance 
+                            , -columnProperty.ColumnSectionWidth / 2
+                            + coverDistance
                             + firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4.Id, newPlaсeСolumnRebar_4);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -1730,7 +1796,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1746,7 +1812,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1762,7 +1828,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1778,7 +1844,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1794,7 +1860,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1810,7 +1876,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1826,7 +1892,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1841,7 +1907,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1856,7 +1922,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1871,7 +1937,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1886,7 +1952,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -1901,7 +1967,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2002,16 +2068,23 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
+
+                        if (columnMainRebar_1 == null)
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать Z-образный стержень! Возможно выбран некорректный тип формы 26!");
+                            return Result.Cancelled;
+                        }
+
                         XYZ rotate1_p1 = new XYZ(rebar_p1L.X, rebar_p1L.Y, rebar_p1L.Z);
                         XYZ rotate1_p2 = new XYZ(rebar_p1L.X, rebar_p1L.Y, rebar_p1L.Z + 1);
                         Line rotateLine = Line.CreateBound(rotate1_p1, rotate1_p2);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1.Id, rotateLine, alphaOverlapping);
-                        XYZ newPlaсeСolumnMainRebar_1 = new XYZ(-columnProperty.ColumnSectionHeight / 
-                            2 + coverDistance 
+                        XYZ newPlaсeСolumnMainRebar_1 = new XYZ(-columnProperty.ColumnSectionHeight /
+                            2 + coverDistance
                             + firstMainBarDiam / 2
                             , -columnProperty.ColumnSectionWidth / 2
                             + coverDistance
@@ -2026,16 +2099,16 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotateLine, -alphaOverlapping);
-                        XYZ newPlaсeСolumnRebar_2 = new XYZ(-columnProperty.ColumnSectionHeight / 2 
-                            + coverDistance 
+                        XYZ newPlaсeСolumnRebar_2 = new XYZ(-columnProperty.ColumnSectionHeight / 2
+                            + coverDistance
                             + firstMainBarDiam / 2
-                            , columnProperty.ColumnSectionWidth / 2 
-                            - coverDistance 
+                            , columnProperty.ColumnSectionWidth / 2
+                            - coverDistance
                             - firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2.Id, newPlaсeСolumnRebar_2);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -2047,7 +2120,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2056,11 +2129,11 @@ namespace SquareColumnsReinforcement
                         XYZ rotate2_p2 = new XYZ(rebar_p1L.X, rebar_p1L.Y, rebar_p1L.Z + 1);
                         Line rotateLine2 = Line.CreateBound(rotate2_p1, rotate2_p2);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3.Id, rotateLine2, 180 * (Math.PI / 180));
-                        XYZ newPlaсeСolumnRebar_3 = new XYZ(columnProperty.ColumnSectionHeight / 2 
-                            - coverDistance 
+                        XYZ newPlaсeСolumnRebar_3 = new XYZ(columnProperty.ColumnSectionHeight / 2
+                            - coverDistance
                             - firstMainBarDiam / 2
-                            , columnProperty.ColumnSectionWidth / 2 
-                            - coverDistance 
+                            , columnProperty.ColumnSectionWidth / 2
+                            - coverDistance
                             - firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3.Id, newPlaсeСolumnRebar_3);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -2072,17 +2145,17 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotateLine, -alphaOverlapping);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotateLine2, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnRebar_4 = new XYZ(columnProperty.ColumnSectionHeight / 2
-                            - coverDistance 
+                            - coverDistance
                             - firstMainBarDiam / 2
                             , -columnProperty.ColumnSectionWidth / 2
-                            + coverDistance 
+                            + coverDistance
                             + firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4.Id, newPlaсeСolumnRebar_4);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -2095,7 +2168,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2111,7 +2184,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2127,7 +2200,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2144,7 +2217,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2161,7 +2234,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2178,7 +2251,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2196,7 +2269,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2213,7 +2286,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2230,7 +2303,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2248,7 +2321,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2265,7 +2338,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2282,7 +2355,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2356,19 +2429,26 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
+
+                        if (columnMainRebar_1 == null)
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать Z-образный стержень! Возможно выбран некорректный тип формы 26!");
+                            return Result.Cancelled;
+                        }
+
                         XYZ rotate1_p1 = new XYZ(rebar_p1L.X, rebar_p1L.Y, rebar_p1L.Z);
                         XYZ rotate1_p2 = new XYZ(rebar_p1L.X, rebar_p1L.Y, rebar_p1L.Z + 1);
                         Line rotateLine = Line.CreateBound(rotate1_p1, rotate1_p2);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1.Id, rotateLine, alphaWelding);
-                        XYZ newPlaсeСolumnMainRebar_1 = new XYZ(-columnProperty.ColumnSectionHeight / 2 
+                        XYZ newPlaсeСolumnMainRebar_1 = new XYZ(-columnProperty.ColumnSectionHeight / 2
                             + coverDistance
                             + firstMainBarDiam / 2
-                            , -columnProperty.ColumnSectionWidth / 2 
-                            + coverDistance 
+                            , -columnProperty.ColumnSectionWidth / 2
+                            + coverDistance
                             + firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1.Id, newPlaсeСolumnMainRebar_1);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -2381,8 +2461,8 @@ namespace SquareColumnsReinforcement
                             + coverDistance
                             + firstMainBarDiam / 2
                             + sectionOffset
-                            , -columnProperty.ColumnSectionWidth / 2 
-                            + coverDistance 
+                            , -columnProperty.ColumnSectionWidth / 2
+                            + coverDistance
                             + firstMainBarDiam / 2
                             + sectionOffset, 0);
                         ElementTransformUtils.MoveElement(doc, mechanicalConnection_1.Id, newPlaсemechanicalConnection_1);
@@ -2395,16 +2475,16 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotateLine, -alphaWelding);
                         XYZ newPlaсeСolumnMainRebar_2 = new XYZ(-columnProperty.ColumnSectionHeight / 2
-                            + coverDistance 
+                            + coverDistance
                             + firstMainBarDiam / 2
-                            , columnProperty.ColumnSectionWidth / 2 
-                            - coverDistance 
+                            , columnProperty.ColumnSectionWidth / 2
+                            - coverDistance
                             - firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2.Id, newPlaсeСolumnMainRebar_2);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -2414,11 +2494,11 @@ namespace SquareColumnsReinforcement
                             , columnProperty.BaseLevel
                             , StructuralType.NonStructural);
                         XYZ newPlaсemechanicalConnection_2 = new XYZ(-columnProperty.ColumnSectionHeight / 2
-                            + coverDistance 
+                            + coverDistance
                             + firstMainBarDiam / 2
-                            + sectionOffset, columnProperty.ColumnSectionWidth / 2 
-                            - coverDistance 
-                            - firstMainBarDiam / 2 
+                            + sectionOffset, columnProperty.ColumnSectionWidth / 2
+                            - coverDistance
+                            - firstMainBarDiam / 2
                             - sectionOffset, 0);
                         ElementTransformUtils.MoveElement(doc, mechanicalConnection_2.Id, newPlaсemechanicalConnection_2);
                         ElementTransformUtils.RotateElement(doc, mechanicalConnection_2.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -2430,7 +2510,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2440,7 +2520,7 @@ namespace SquareColumnsReinforcement
                         Line rotateLine2 = Line.CreateBound(rotate2_p1, rotate2_p2);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3.Id, rotateLine2, 180 * (Math.PI / 180));
                         XYZ newPlaсeСolumnMainRebar_3 = new XYZ(columnProperty.ColumnSectionHeight / 2
-                            - coverDistance 
+                            - coverDistance
                             - firstMainBarDiam / 2
                             , columnProperty.ColumnSectionWidth / 2
                             - coverDistance
@@ -2452,13 +2532,13 @@ namespace SquareColumnsReinforcement
                             , firstMechanicalConnectionFamilySymbol
                             , columnProperty.BaseLevel
                             , StructuralType.NonStructural);
-                        XYZ newPlaсemechanicalConnection_3 = new XYZ(columnProperty.ColumnSectionHeight / 2 
+                        XYZ newPlaсemechanicalConnection_3 = new XYZ(columnProperty.ColumnSectionHeight / 2
                             - coverDistance
                             - firstMainBarDiam / 2
                             - sectionOffset
-                            , columnProperty.ColumnSectionWidth / 2 
-                            - coverDistance 
-                            - firstMainBarDiam / 2 
+                            , columnProperty.ColumnSectionWidth / 2
+                            - coverDistance
+                            - firstMainBarDiam / 2
                             - sectionOffset, 0);
                         ElementTransformUtils.MoveElement(doc, mechanicalConnection_3.Id, newPlaсemechanicalConnection_3);
                         ElementTransformUtils.RotateElement(doc, mechanicalConnection_3.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -2470,16 +2550,16 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotateLine, -alphaWelding);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotateLine2, 180 * (Math.PI / 180));
-                        XYZ newPlaсeСolumnMainRebar_4 = new XYZ(columnProperty.ColumnSectionHeight / 2 
+                        XYZ newPlaсeСolumnMainRebar_4 = new XYZ(columnProperty.ColumnSectionHeight / 2
                             - coverDistance
                             - firstMainBarDiam / 2
-                            , -columnProperty.ColumnSectionWidth / 2 
+                            , -columnProperty.ColumnSectionWidth / 2
                             + coverDistance
                             + firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4.Id, newPlaсeСolumnMainRebar_4);
@@ -2490,12 +2570,12 @@ namespace SquareColumnsReinforcement
                             , columnProperty.BaseLevel
                             , StructuralType.NonStructural);
                         XYZ newPlaсemechanicalConnection_4 = new XYZ(columnProperty.ColumnSectionHeight / 2
-                            - coverDistance 
+                            - coverDistance
                             - firstMainBarDiam / 2
                             - sectionOffset
                             , -columnProperty.ColumnSectionWidth / 2
-                            + coverDistance 
-                            + firstMainBarDiam / 2 
+                            + coverDistance
+                            + firstMainBarDiam / 2
                             + sectionOffset, 0);
                         ElementTransformUtils.MoveElement(doc, mechanicalConnection_4.Id, newPlaсemechanicalConnection_4);
                         ElementTransformUtils.RotateElement(doc, mechanicalConnection_4.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -2508,7 +2588,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2531,7 +2611,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right, RebarHookOrientation.Right);
                         XYZ newPlaсeСolumnMainRebar_1B = new XYZ(-columnProperty.ColumnSectionHeight / 2 + coverDistance + secondMainBarDiam / 2, firstTopRebarOffset, 0);
@@ -2553,7 +2633,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2577,7 +2657,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2601,7 +2681,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2625,7 +2705,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2650,7 +2730,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2674,7 +2754,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2698,7 +2778,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2723,7 +2803,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2747,7 +2827,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2771,7 +2851,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2851,10 +2931,17 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
+
+                        if (columnMainRebar_1 == null)
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать Z-образный стержень! Возможно выбран некорректный тип формы 26!");
+                            return Result.Cancelled;
+                        }
+
                         XYZ rotate1_p1 = new XYZ(rebar_p1L.X, rebar_p1L.Y, rebar_p1L.Z);
                         XYZ rotate1_p2 = new XYZ(rebar_p1L.X, rebar_p1L.Y, rebar_p1L.Z + 1);
                         Line rotateLine = Line.CreateBound(rotate1_p1, rotate1_p2);
@@ -2863,7 +2950,7 @@ namespace SquareColumnsReinforcement
                             + coverDistance
                             + firstMainBarDiam / 2
                             , -columnProperty.ColumnSectionWidth / 2
-                            + coverDistance 
+                            + coverDistance
                             + firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_1.Id, newPlaсeСolumnMainRebar_1);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_1.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -2875,16 +2962,16 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotateLine, -alphaOverlapping);
-                        XYZ newPlaсeСolumnRebar_2 = new XYZ(-columnProperty.ColumnSectionHeight / 2 
+                        XYZ newPlaсeСolumnRebar_2 = new XYZ(-columnProperty.ColumnSectionHeight / 2
                             + coverDistance
                             + firstMainBarDiam / 2
-                            , columnProperty.ColumnSectionWidth / 2 
-                            - coverDistance 
+                            , columnProperty.ColumnSectionWidth / 2
+                            - coverDistance
                             - firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2.Id, newPlaсeСolumnRebar_2);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -2896,7 +2983,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2905,11 +2992,11 @@ namespace SquareColumnsReinforcement
                         XYZ rotate2_p2 = new XYZ(rebar_p1L.X, rebar_p1L.Y, rebar_p1L.Z + 1);
                         Line rotateLine2 = Line.CreateBound(rotate2_p1, rotate2_p2);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3.Id, rotateLine2, 180 * (Math.PI / 180));
-                        XYZ newPlaсeСolumnRebar_3 = new XYZ(columnProperty.ColumnSectionHeight / 2 
-                            - coverDistance 
+                        XYZ newPlaсeСolumnRebar_3 = new XYZ(columnProperty.ColumnSectionHeight / 2
+                            - coverDistance
                             - firstMainBarDiam / 2
-                            , columnProperty.ColumnSectionWidth / 2 
-                            - coverDistance 
+                            , columnProperty.ColumnSectionWidth / 2
+                            - coverDistance
                             - firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_3.Id, newPlaсeСolumnRebar_3);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_3.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -2921,17 +3008,17 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainFirstRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotateLine, -alphaOverlapping);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotateLine2, 180 * (Math.PI / 180));
-                        XYZ newPlaсeСolumnRebar_4 = new XYZ(columnProperty.ColumnSectionHeight / 2 
-                            - coverDistance 
+                        XYZ newPlaсeСolumnRebar_4 = new XYZ(columnProperty.ColumnSectionHeight / 2
+                            - coverDistance
                             - firstMainBarDiam / 2
                             , -columnProperty.ColumnSectionWidth / 2
-                            + coverDistance 
+                            + coverDistance
                             + firstMainBarDiam / 2, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_4.Id, newPlaсeСolumnRebar_4);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_4.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -2943,7 +3030,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2962,7 +3049,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2978,7 +3065,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -2995,14 +3082,14 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2A.Id, rotateLine, -alphaSecondOverlapping);
                         ElementTransformUtils.RotateElement(doc, columnMainRebar_2A.Id, rotateLine2, 180 * (Math.PI / 180));
-                        XYZ newPlaсeСolumnRebar_2A = new XYZ(columnProperty.ColumnSectionHeight / 2 
-                            - coverDistance 
+                        XYZ newPlaсeСolumnRebar_2A = new XYZ(columnProperty.ColumnSectionHeight / 2
+                            - coverDistance
                             - secondMainBarDiam / 2
                             , -firstLowerRebarOffset, 0);
                         ElementTransformUtils.MoveElement(doc, columnMainRebar_2A.Id, newPlaсeСolumnRebar_2A);
@@ -3015,7 +3102,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -3032,7 +3119,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -3050,7 +3137,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -3067,7 +3154,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -3084,7 +3171,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -3101,7 +3188,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -3118,7 +3205,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesS
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -3135,7 +3222,7 @@ namespace SquareColumnsReinforcement
                             , null
                             , null
                             , column
-                            , new XYZ (0, 1, 0)
+                            , new XYZ(0, 1, 0)
                             , mainSecondRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
@@ -3187,6 +3274,13 @@ namespace SquareColumnsReinforcement
                         , firstStirrupCurves
                         , RebarHookOrientation.Right
                         , RebarHookOrientation.Right);
+
+                    if (buttomStirrup == null)
+                    {
+                        TaskDialog.Show("Revit", "Не удалось создать хомут! Возможно выбран некорректный тип формы 51 или отгиб арматуры не соответствует хомуту!");
+                        return Result.Cancelled;
+                    }
+
                     ElementTransformUtils.RotateElement(doc, buttomStirrup.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
 
                     int buttomStirrupQuantity = (int)(frequentButtomStirrupPlacementHeight / frequentButtomStirrupStep) + 1;
@@ -3332,6 +3426,12 @@ namespace SquareColumnsReinforcement
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
 
+                        if (rebarPC_1 == null)
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать дополнительный Г-образный стержень в основании колонны! Возможно выбран некорректный тип формы 11!");
+                            return Result.Cancelled;
+                        }
+
                         XYZ newPlaсeRebarPC_1 = new XYZ(progressiveCollapseColumnCenterOffset, 0, 0);
                         ElementTransformUtils.MoveElement(doc, rebarPC_1.Id, newPlaсeRebarPC_1);
                         ElementTransformUtils.RotateElement(doc, rebarPC_1.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -3396,6 +3496,11 @@ namespace SquareColumnsReinforcement
                 }
                 t.Commit();
             }
+            return Result.Succeeded;
+        }
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            throw new NotImplementedException();
         }
     }
 }

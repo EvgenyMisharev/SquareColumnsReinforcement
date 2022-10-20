@@ -1,5 +1,6 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Structure;
+using Autodesk.Revit.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,10 @@ using System.Threading.Tasks;
 
 namespace SquareColumnsReinforcement
 {
-    public class SquareColumnsReinforcementT3
+    public class SquareColumnsReinforcementT3 : IExternalCommand
     {
-        public SquareColumnsReinforcementT3(Document doc
+        public Result Execute(UIApplication uiapp
+            , Document doc
             , List<FamilyInstance> columnsList
             , SquareColumnsReinforcementWPF squareColumnsReinforcementWPF)
         {
@@ -73,55 +75,58 @@ namespace SquareColumnsReinforcement
 
             FamilySymbol firstMechanicalConnectionFamilySymbol = null;
             FamilySymbol secondMechanicalConnectionFamilySymbol = null;
-            if (squareColumnsReinforcementWPF.MechanicalConnectionOptionName == "radioButton_WeldedConnection")
+            if (squareColumnsReinforcementWPF.RebarConnectionOptionName == "radioButton_Mechanical")
             {
-                List<ElementId> weldedConnectionElementIds = squareColumnsReinforcementWPF.WeldedConnectionFamily.GetFamilySymbolIds().ToList();
-                List<FamilySymbol> weldedConnectionFamilySymbolList = new List<FamilySymbol>();
-                foreach (ElementId id in weldedConnectionElementIds)
+                if (squareColumnsReinforcementWPF.MechanicalConnectionOptionName == "radioButton_WeldedConnection")
                 {
-                    weldedConnectionFamilySymbolList.Add(doc.GetElement(id) as FamilySymbol);
-                }
-                weldedConnectionFamilySymbolList = weldedConnectionFamilySymbolList.OrderBy(fs => fs.get_Parameter(diamGuid).AsDouble()).ToList();
-                foreach (FamilySymbol fs in weldedConnectionFamilySymbolList)
-                {
-                    if (Math.Round(fs.get_Parameter(diamGuid).AsDouble(), 6) == Math.Round(firstMainBarDiam, 6))
+                    List<ElementId> weldedConnectionElementIds = squareColumnsReinforcementWPF.WeldedConnectionFamily.GetFamilySymbolIds().ToList();
+                    List<FamilySymbol> weldedConnectionFamilySymbolList = new List<FamilySymbol>();
+                    foreach (ElementId id in weldedConnectionElementIds)
                     {
-                        firstMechanicalConnectionFamilySymbol = fs;
-                        break;
+                        weldedConnectionFamilySymbolList.Add(doc.GetElement(id) as FamilySymbol);
+                    }
+                    weldedConnectionFamilySymbolList = weldedConnectionFamilySymbolList.OrderBy(fs => fs.get_Parameter(diamGuid).AsDouble()).ToList();
+                    foreach (FamilySymbol fs in weldedConnectionFamilySymbolList)
+                    {
+                        if (Math.Round(fs.get_Parameter(diamGuid).AsDouble(), 6) == Math.Round(firstMainBarDiam, 6))
+                        {
+                            firstMechanicalConnectionFamilySymbol = fs;
+                            break;
+                        }
+                    }
+                    foreach (FamilySymbol fs in weldedConnectionFamilySymbolList)
+                    {
+                        if (Math.Round(fs.get_Parameter(diamGuid).AsDouble(), 6) == Math.Round(secondMainBarDiam, 6))
+                        {
+                            secondMechanicalConnectionFamilySymbol = fs;
+                            break;
+                        }
                     }
                 }
-                foreach (FamilySymbol fs in weldedConnectionFamilySymbolList)
+                else
                 {
-                    if (Math.Round(fs.get_Parameter(diamGuid).AsDouble(), 6) == Math.Round(secondMainBarDiam, 6))
+                    List<ElementId> couplingConnectionElementIds = squareColumnsReinforcementWPF.CouplingConnectionFamily.GetFamilySymbolIds().ToList();
+                    List<FamilySymbol> couplingConnectionFamilySymbolList = new List<FamilySymbol>();
+                    foreach (ElementId id in couplingConnectionElementIds)
                     {
-                        secondMechanicalConnectionFamilySymbol = fs;
-                        break;
+                        couplingConnectionFamilySymbolList.Add(doc.GetElement(id) as FamilySymbol);
                     }
-                }
-            }
-            else
-            {
-                List<ElementId> couplingConnectionElementIds = squareColumnsReinforcementWPF.CouplingConnectionFamily.GetFamilySymbolIds().ToList();
-                List<FamilySymbol> couplingConnectionFamilySymbolList = new List<FamilySymbol>();
-                foreach (ElementId id in couplingConnectionElementIds)
-                {
-                    couplingConnectionFamilySymbolList.Add(doc.GetElement(id) as FamilySymbol);
-                }
-                couplingConnectionFamilySymbolList = couplingConnectionFamilySymbolList.OrderBy(fs => fs.get_Parameter(diamGuid).AsDouble()).ToList();
-                foreach (FamilySymbol fs in couplingConnectionFamilySymbolList)
-                {
-                    if (Math.Round(fs.get_Parameter(diamGuid).AsDouble(), 6) == Math.Round(firstMainBarDiam, 6))
+                    couplingConnectionFamilySymbolList = couplingConnectionFamilySymbolList.OrderBy(fs => fs.get_Parameter(diamGuid).AsDouble()).ToList();
+                    foreach (FamilySymbol fs in couplingConnectionFamilySymbolList)
                     {
-                        firstMechanicalConnectionFamilySymbol = fs;
-                        break;
+                        if (Math.Round(fs.get_Parameter(diamGuid).AsDouble(), 6) == Math.Round(firstMainBarDiam, 6))
+                        {
+                            firstMechanicalConnectionFamilySymbol = fs;
+                            break;
+                        }
                     }
-                }
-                foreach (FamilySymbol fs in couplingConnectionFamilySymbolList)
-                {
-                    if (Math.Round(fs.get_Parameter(diamGuid).AsDouble(), 6) == Math.Round(secondMainBarDiam, 6))
+                    foreach (FamilySymbol fs in couplingConnectionFamilySymbolList)
                     {
-                        secondMechanicalConnectionFamilySymbol = fs;
-                        break;
+                        if (Math.Round(fs.get_Parameter(diamGuid).AsDouble(), 6) == Math.Round(secondMainBarDiam, 6))
+                        {
+                            secondMechanicalConnectionFamilySymbol = fs;
+                            break;
+                        }
                     }
                 }
             }
@@ -129,8 +134,38 @@ namespace SquareColumnsReinforcement
             using (Transaction t = new Transaction(doc))
             {
                 t.Start("Армирование колонн - Тип 3");
-                firstMechanicalConnectionFamilySymbol.Activate();
-                secondMechanicalConnectionFamilySymbol.Activate();
+                if (squareColumnsReinforcementWPF.RebarConnectionOptionName == "radioButton_Mechanical")
+                {
+                    if (firstMechanicalConnectionFamilySymbol == null)
+                    {
+                        if (squareColumnsReinforcementWPF.MechanicalConnectionOptionName == "radioButton_WeldedConnection")
+                        {
+                            TaskDialog.Show("Revit", $"Для угловых стержней не найден подходящий тип соединения {squareColumnsReinforcementWPF.WeldedConnectionFamily.Name}! Уваличте диаметр стержней или измените тип соединения!");
+                            return Result.Cancelled;
+                        }
+                        else
+                        {
+                            TaskDialog.Show("Revit", $"Для угловых стержней не найден подходящий тип соединения {squareColumnsReinforcementWPF.CouplingConnectionFamily.Name}! Уваличте диаметр стержней или измените тип соединения!");
+                            return Result.Cancelled;
+                        }
+                    }
+                    else if (secondMechanicalConnectionFamilySymbol == null)
+                    {
+                        if (squareColumnsReinforcementWPF.MechanicalConnectionOptionName == "radioButton_WeldedConnection")
+                        {
+                            TaskDialog.Show("Revit", $"Для боковых стержней не найден подходящий тип соединения {squareColumnsReinforcementWPF.WeldedConnectionFamily.Name}! Уваличте диаметр стержней или измените тип соединения!");
+                            return Result.Cancelled;
+                        }
+                        else
+                        {
+                            TaskDialog.Show("Revit", $"Для боковых стержней не найден подходящий тип соединения {squareColumnsReinforcementWPF.CouplingConnectionFamily.Name}! Уваличте диаметр стержней или измените тип соединения!");
+                            return Result.Cancelled;
+                        }
+                    }
+                    firstMechanicalConnectionFamilySymbol.Activate();
+                    secondMechanicalConnectionFamilySymbol.Activate();
+                }
+
                 foreach (FamilyInstance column in columnsList)
                 {
                     ColumnPropertyCollector columnProperty = new ColumnPropertyCollector(doc, column);
@@ -209,6 +244,12 @@ namespace SquareColumnsReinforcement
                             , mainRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
+                        if(columnMainRebar_1 == null)
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать Z-образный стержень! Возможно выбран некорректный тип формы 26!");
+                            return Result.Cancelled;
+                        }
+
                         XYZ newPlaсeСolumnMainRebar_1 = new XYZ(-columnProperty.ColumnSectionHeight / 2
                             + coverDistance
                             + firstMainBarDiam / 2
@@ -404,6 +445,13 @@ namespace SquareColumnsReinforcement
                             , mainRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
+
+                        if (columnMainRebar_1 == null)
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать Г-образный стержень! Возможно выбран некорректный тип формы 11!");
+                            return Result.Cancelled;
+                        }
+
                         XYZ rotate1_p1 = new XYZ(rebar_p1L.X, rebar_p1L.Y, rebar_p1L.Z);
                         XYZ rotate1_p2 = new XYZ(rebar_p1L.X, rebar_p1L.Y, rebar_p1L.Z + 1);
                         Line rotateLine = Line.CreateBound(rotate1_p1, rotate1_p2);
@@ -589,6 +637,13 @@ namespace SquareColumnsReinforcement
                             , mainRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
+
+                        if (columnMainRebar_1 == null)
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать прямой стержень! Возможно выбран некорректный тип формы 01!");
+                            return Result.Cancelled;
+                        }
+
                         XYZ newPlaсeСolumnMainRebar_1 = new XYZ(-columnProperty.ColumnSectionHeight / 2
                             + coverDistance
                             + firstMainBarDiam / 2
@@ -820,6 +875,13 @@ namespace SquareColumnsReinforcement
                             , mainRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
+
+                        if (columnMainRebar_1 == null)
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать Г-образный стержень! Возможно выбран некорректный тип формы 11!");
+                            return Result.Cancelled;
+                        }
+
                         XYZ rotate1_p1 = new XYZ(rebar_p1L.X, rebar_p1L.Y, rebar_p1L.Z);
                         XYZ rotate1_p2 = new XYZ(rebar_p1L.X, rebar_p1L.Y, rebar_p1L.Z + 1);
                         Line rotateLine = Line.CreateBound(rotate1_p1, rotate1_p2);
@@ -1013,6 +1075,13 @@ namespace SquareColumnsReinforcement
                             , mainRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
+
+                        if (columnMainRebar_1 == null)
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать Z-образный стержень! Возможно выбран некорректный тип формы 26!");
+                            return Result.Cancelled;
+                        }
+
                         XYZ newPlaсeСolumnMainRebar_1 = new XYZ(-columnProperty.ColumnSectionHeight / 2
                             + coverDistance
                             + firstMainBarDiam / 2
@@ -1216,6 +1285,13 @@ namespace SquareColumnsReinforcement
                             , mainRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
+
+                        if (columnMainRebar_1 == null)
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать Z-образный стержень! Возможно выбран некорректный тип формы 26!");
+                            return Result.Cancelled;
+                        }
+
                         XYZ rotate1_p1 = new XYZ(rebar_p1L.X, rebar_p1L.Y, rebar_p1L.Z);
                         XYZ rotate1_p2 = new XYZ(rebar_p1L.X, rebar_p1L.Y, rebar_p1L.Z + 1);
                         Line rotateLine = Line.CreateBound(rotate1_p1, rotate1_p2);
@@ -1414,6 +1490,13 @@ namespace SquareColumnsReinforcement
                             , mainRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
+
+                        if (columnMainRebar_1 == null)
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать Z-образный стержень! Возможно выбран некорректный тип формы 26!");
+                            return Result.Cancelled;
+                        }
+
                         XYZ rotate1_p1 = new XYZ(rebar_p1L.X, rebar_p1L.Y, rebar_p1L.Z);
                         XYZ rotate1_p2 = new XYZ(rebar_p1L.X, rebar_p1L.Y, rebar_p1L.Z + 1);
                         Line rotateLine = Line.CreateBound(rotate1_p1, rotate1_p2);
@@ -1702,6 +1785,13 @@ namespace SquareColumnsReinforcement
                             , mainRebarCurvesL
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
+
+                        if (columnMainRebar_1 == null)
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать Z-образный стержень! Возможно выбран некорректный тип формы 26!");
+                            return Result.Cancelled;
+                        }
+
                         XYZ rotate1_p1 = new XYZ(rebar_p1L.X, rebar_p1L.Y, rebar_p1L.Z);
                         XYZ rotate1_p2 = new XYZ(rebar_p1L.X, rebar_p1L.Y, rebar_p1L.Z + 1);
                         Line rotateLine = Line.CreateBound(rotate1_p1, rotate1_p2);
@@ -1887,6 +1977,13 @@ namespace SquareColumnsReinforcement
                         , firstStirrupCurves
                         , RebarHookOrientation.Right
                         , RebarHookOrientation.Right);
+
+                    if (buttomStirrup == null)
+                    {
+                        TaskDialog.Show("Revit", "Не удалось создать хомут! Возможно выбран некорректный тип формы 51 или отгиб арматуры не соответствует хомуту!");
+                        return Result.Cancelled;
+                    }
+
                     ElementTransformUtils.RotateElement(doc, buttomStirrup.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
 
                     int buttomStirrupQuantity = (int)(frequentButtomStirrupPlacementHeight / frequentButtomStirrupStep) + 1;
@@ -2032,6 +2129,12 @@ namespace SquareColumnsReinforcement
                             , RebarHookOrientation.Right
                             , RebarHookOrientation.Right);
 
+                        if (rebarPC_1 == null)
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать дополнительный Г-образный стержень в основании колонны! Возможно выбран некорректный тип формы 11!");
+                            return Result.Cancelled;
+                        }
+
                         XYZ newPlaсeRebarPC_1 = new XYZ(progressiveCollapseColumnCenterOffset, 0, 0);
                         ElementTransformUtils.MoveElement(doc, rebarPC_1.Id, newPlaсeRebarPC_1);
                         ElementTransformUtils.RotateElement(doc, rebarPC_1.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
@@ -2096,6 +2199,11 @@ namespace SquareColumnsReinforcement
                 }
                 t.Commit();
             }
+            return Result.Succeeded;
+        }
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            throw new NotImplementedException();
         }
     }
 }

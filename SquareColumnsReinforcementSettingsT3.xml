@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<SquareColumnsReinforcementSettingsT3 xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Form01Name>01</Form01Name>
+  <Form26Name>01</Form26Name>
+  <Form11Name>01</Form11Name>
+  <Form51Name>01</Form51Name>
+  <RebarHookTypeForStirrupName>Обычный - 135</RebarHookTypeForStirrupName>
+  <FirstMainBarTapeName>ø10</FirstMainBarTapeName>
+  <SecondMainBarTapeName>ø10</SecondMainBarTapeName>
+  <FirstStirrupBarTapeName>ø8</FirstStirrupBarTapeName>
+  <SecondStirrupBarTapeName>ø6 A240</SecondStirrupBarTapeName>
+  <ColumnRebarCoverTypeName>25мм</ColumnRebarCoverTypeName>
+  <RebarConnectionOptionName>radioButton_Overlap</RebarConnectionOptionName>
+  <DeepenRebarChecked>false</DeepenRebarChecked>
+  <DeepenRebar>0</DeepenRebar>
+  <OverlapTransitionChecked>true</OverlapTransitionChecked>
+  <FirstRebarOutletsLength>500</FirstRebarOutletsLength>
+  <SecondRebarOutletsLength>300</SecondRebarOutletsLength>
+  <StandardStirrupStep>200</StandardStirrupStep>
+  <FrequentButtomStirrupStep>300</FrequentButtomStirrupStep>
+  <FrequentButtomStirrupPlacementHeight>500</FrequentButtomStirrupPlacementHeight>
+  <FrequentTopStirrupStep>200</FrequentTopStirrupStep>
+  <FrequentTopStirrupPlacementHeight>500</FrequentTopStirrupPlacementHeight>
+  <FloorThickness>300</FloorThickness>
+  <FirstStirrupButtomOffset>100</FirstStirrupButtomOffset>
+  <BendInSlabChecked>false</BendInSlabChecked>
+  <BendInSlab>0</BendInSlab>
+  <SectionChangeChecked>false</SectionChangeChecked>
+  <SectionChange>0</SectionChange>
+  <ProgressiveCollapseBarIntoSlabChecked>false</ProgressiveCollapseBarIntoSlabChecked>
+  <ProgressiveCollapseBarTapeName>ø6 A240</ProgressiveCollapseBarTapeName>
+  <ProgressiveCollapseColumnCenterOffset>0</ProgressiveCollapseColumnCenterOffset>
+  <ProgressiveCollapseUpLength>0</ProgressiveCollapseUpLength>
+  <ProgressiveCollapseBottomIndent>0</ProgressiveCollapseBottomIndent>
+  <ProgressiveCollapseSideLength>0</ProgressiveCollapseSideLength>
+  <MechanicalConnectionOptionName>radioButton_WeldedConnection</MechanicalConnectionOptionName>
+</SquareColumnsReinforcementSettingsT3>
