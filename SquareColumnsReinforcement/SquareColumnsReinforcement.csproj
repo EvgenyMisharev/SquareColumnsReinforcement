@@ -252,14 +252,14 @@
     <Resource Include="Resources\Connections\SectionChange.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\ProgressiveCollapse\ProgressiveCollapseBarIntoSlab.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\ProgressiveCollapse\Beregiproject.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Connections\CouplingConnection.png" />
     <Resource Include="Resources\Connections\WeldedConnection.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ProgressiveCollapse\ProgressiveCollapseBendsIntoSlab.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

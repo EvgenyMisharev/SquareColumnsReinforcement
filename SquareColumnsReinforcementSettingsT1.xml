@@ -5,7 +5,7 @@
   <Form11Name>О_11</Form11Name>
   <Form51Name>Х_51</Form51Name>
   <RebarHookTypeForStirrupName>Хомут/стяжка_135°</RebarHookTypeForStirrupName>
-  <FirstMainBarTapeName>А500 Ø25</FirstMainBarTapeName>
+  <FirstMainBarTapeName>А500 Ø20</FirstMainBarTapeName>
   <FirstStirrupBarTapeName>А240 Ø6</FirstStirrupBarTapeName>
   <ColumnRebarCoverTypeName>35</ColumnRebarCoverTypeName>
   <RebarConnectionOptionName>radioButton_Overlap</RebarConnectionOptionName>
@@ -25,12 +25,12 @@
   <BendInSlab>0</BendInSlab>
   <SectionChangeChecked>false</SectionChangeChecked>
   <SectionChange>0</SectionChange>
-  <ProgressiveCollapseBarIntoSlabChecked>false</ProgressiveCollapseBarIntoSlabChecked>
-  <ProgressiveCollapseBarTapeName>А240 Ø4</ProgressiveCollapseBarTapeName>
-  <ProgressiveCollapseColumnCenterOffset>0</ProgressiveCollapseColumnCenterOffset>
-  <ProgressiveCollapseUpLength>0</ProgressiveCollapseUpLength>
-  <ProgressiveCollapseBottomIndent>0</ProgressiveCollapseBottomIndent>
-  <ProgressiveCollapseSideLength>0</ProgressiveCollapseSideLength>
+  <ProgressiveCollapseBarIntoSlabChecked>true</ProgressiveCollapseBarIntoSlabChecked>
+  <ProgressiveCollapseBarTapeName>А500 Ø20</ProgressiveCollapseBarTapeName>
+  <ProgressiveCollapseColumnCenterOffset>100</ProgressiveCollapseColumnCenterOffset>
+  <ProgressiveCollapseUpLength>1000</ProgressiveCollapseUpLength>
+  <ProgressiveCollapseBottomIndent>150</ProgressiveCollapseBottomIndent>
+  <ProgressiveCollapseSideLength>1000</ProgressiveCollapseSideLength>
   <MechanicalConnectionOptionName>radioButton_WeldedConnection</MechanicalConnectionOptionName>
   <WeldedConnectionFamilyName>ВанночкаДляСварки_ГОСТ 14098-2014</WeldedConnectionFamilyName>
   <CouplingConnectionFamilyName>МуфтаАрматурная_ТипС_RECO</CouplingConnectionFamilyName>

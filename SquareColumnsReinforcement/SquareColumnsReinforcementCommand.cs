@@ -57,7 +57,7 @@ namespace SquareColumnsReinforcement
                 .ToList();
 
             List<FamilyInstance> columnsList = GetColumnsFromCurrentSelection(doc, sel);
-            if(columnsList.Count == 0)
+            if (columnsList.Count == 0)
             {
                 ColumnSelectionFilter columnSelFilter = new ColumnSelectionFilter();
                 IList<Reference> selColumnsReferenceList = null;

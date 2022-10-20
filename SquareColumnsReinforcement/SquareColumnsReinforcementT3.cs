@@ -1992,6 +1992,107 @@ namespace SquareColumnsReinforcement
                     topSecondStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_QUANTITY_OF_BARS).Set(topStirrupQuantity);
                     topSecondStirrup.get_Parameter(BuiltInParameter.REBAR_ELEM_BAR_SPACING).Set(frequentTopStirrupStep);
                     topSecondStirrup.GetShapeDrivenAccessor().BarsOnNormalSide = false;
+
+                    if (squareColumnsReinforcementWPF.ProgressiveCollapseBarIntoSlabChecked)
+                    {
+                        RebarBarType progressiveCollapseBarTape = squareColumnsReinforcementWPF.ProgressiveCollapseBarTape;
+#if R2019 || R2020 || R2021 || R2022
+                        double progressiveCollapseBarDiam = progressiveCollapseBarTape.BarDiameter;
+#else
+                        double progressiveCollapseBarDiam = progressiveCollapseBarTape.BarNominalDiameter;
+#endif
+
+                        double progressiveCollapseBottomIndent = squareColumnsReinforcementWPF.ProgressiveCollapseBottomIndent / 304.8;
+                        double progressiveCollapseUpLength = squareColumnsReinforcementWPF.ProgressiveCollapseUpLength / 304.8;
+                        double progressiveCollapseSideLength = squareColumnsReinforcementWPF.ProgressiveCollapseSideLength / 304.8;
+                        double progressiveCollapseColumnCenterOffset = squareColumnsReinforcementWPF.ProgressiveCollapseColumnCenterOffset / 304.8;
+
+                        //Точки для построения кривых стержня
+                        XYZ rebar_p1PC = new XYZ(Math.Round(columnProperty.ColumnBasePoint.X, 6), Math.Round(columnProperty.ColumnBasePoint.Y, 6), Math.Round(columnProperty.ColumnBasePoint.Z + progressiveCollapseUpLength - progressiveCollapseBottomIndent, 6));
+                        XYZ rebar_p2PC = new XYZ(Math.Round(rebar_p1PC.X, 6), Math.Round(rebar_p1PC.Y, 6), Math.Round(rebar_p1PC.Z - progressiveCollapseUpLength + progressiveCollapseBarDiam / 2, 6));
+                        XYZ rebar_p3PC = new XYZ(Math.Round(rebar_p2PC.X + progressiveCollapseSideLength - progressiveCollapseBarDiam / 2, 6), Math.Round(rebar_p2PC.Y, 6), Math.Round(rebar_p2PC.Z, 6));
+
+                        //Кривые стержня
+                        List<Curve> rebarCurvesPC = new List<Curve>();
+
+                        Curve line1PC = Line.CreateBound(rebar_p1PC, rebar_p2PC) as Curve;
+                        rebarCurvesPC.Add(line1PC);
+                        Curve line2PC = Line.CreateBound(rebar_p2PC, rebar_p3PC) as Curve;
+                        rebarCurvesPC.Add(line2PC);
+
+                        //Правый
+                        Rebar rebarPC_1 = Rebar.CreateFromCurvesAndShape(doc
+                            , form11
+                            , progressiveCollapseBarTape
+                            , null
+                            , null
+                            , column
+                            , new XYZ(0, 1, 0)
+                            , rebarCurvesPC
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        XYZ newPlaсeRebarPC_1 = new XYZ(progressiveCollapseColumnCenterOffset, 0, 0);
+                        ElementTransformUtils.MoveElement(doc, rebarPC_1.Id, newPlaсeRebarPC_1);
+                        ElementTransformUtils.RotateElement(doc, rebarPC_1.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
+
+                        //Левый
+                        Rebar rebarPC_2 = Rebar.CreateFromCurvesAndShape(doc
+                            , form11
+                            , progressiveCollapseBarTape
+                            , null
+                            , null
+                            , column
+                            , new XYZ(0, 1, 0)
+                            , rebarCurvesPC
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        XYZ rotate1_p1 = new XYZ(rebar_p1PC.X, rebar_p1PC.Y, rebar_p1PC.Z);
+                        XYZ rotate1_p2 = new XYZ(rebar_p1PC.X, rebar_p1PC.Y, rebar_p1PC.Z + 1);
+                        Line rotateLine = Line.CreateBound(rotate1_p1, rotate1_p2);
+                        ElementTransformUtils.RotateElement(doc, rebarPC_2.Id, rotateLine, 180 * (Math.PI / 180));
+
+                        XYZ newPlaсeRebarPC_2 = new XYZ(-progressiveCollapseColumnCenterOffset, 0, 0);
+                        ElementTransformUtils.MoveElement(doc, rebarPC_2.Id, newPlaсeRebarPC_2);
+                        ElementTransformUtils.RotateElement(doc, rebarPC_2.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
+
+                        //Верхний
+                        Rebar rebarPC_3 = Rebar.CreateFromCurvesAndShape(doc
+                            , form11
+                            , progressiveCollapseBarTape
+                            , null
+                            , null
+                            , column
+                            , new XYZ(0, 1, 0)
+                            , rebarCurvesPC
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        ElementTransformUtils.RotateElement(doc, rebarPC_3.Id, rotateLine, 90 * (Math.PI / 180));
+
+                        XYZ newPlaсeRebarPC_3 = new XYZ(0, progressiveCollapseColumnCenterOffset, 0);
+                        ElementTransformUtils.MoveElement(doc, rebarPC_3.Id, newPlaсeRebarPC_3);
+                        ElementTransformUtils.RotateElement(doc, rebarPC_3.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
+
+                        //Нижний
+                        Rebar rebarPC_4 = Rebar.CreateFromCurvesAndShape(doc
+                            , form11
+                            , progressiveCollapseBarTape
+                            , null
+                            , null
+                            , column
+                            , new XYZ(0, 1, 0)
+                            , rebarCurvesPC
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+
+                        ElementTransformUtils.RotateElement(doc, rebarPC_4.Id, rotateLine, -90 * (Math.PI / 180));
+
+                        XYZ newPlaсeRebarPC_4 = new XYZ(0, -progressiveCollapseColumnCenterOffset, 0);
+                        ElementTransformUtils.MoveElement(doc, rebarPC_4.Id, newPlaсeRebarPC_4);
+                        ElementTransformUtils.RotateElement(doc, rebarPC_4.Id, rotateLineBase, (column.Location as LocationPoint).Rotation);
+                    }
                 }
                 t.Commit();
             }
