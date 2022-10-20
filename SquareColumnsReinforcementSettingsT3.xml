@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <SquareColumnsReinforcementSettingsT3 xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Form01Name>01</Form01Name>
-  <Form26Name>01</Form26Name>
-  <Form11Name>01</Form11Name>
-  <Form51Name>01</Form51Name>
-  <RebarHookTypeForStirrupName>Обычный - 135</RebarHookTypeForStirrupName>
+  <Form01Name>02</Form01Name>
+  <Form26Name>26</Form26Name>
+  <Form11Name>15</Form11Name>
+  <Form51Name>51</Form51Name>
+  <RebarHookTypeForStirrupName>Стандартный - 135 градусов</RebarHookTypeForStirrupName>
   <FirstMainBarTapeName>ø10</FirstMainBarTapeName>
   <SecondMainBarTapeName>ø10</SecondMainBarTapeName>
   <FirstStirrupBarTapeName>ø8</FirstStirrupBarTapeName>
@@ -34,4 +34,6 @@
   <ProgressiveCollapseBottomIndent>0</ProgressiveCollapseBottomIndent>
   <ProgressiveCollapseSideLength>0</ProgressiveCollapseSideLength>
   <MechanicalConnectionOptionName>radioButton_WeldedConnection</MechanicalConnectionOptionName>
+  <WeldedConnectionFamilyName>ВанночкаДляСварки_ГОСТ 14098-2014</WeldedConnectionFamilyName>
+  <CouplingConnectionFamilyName>ВанночкаДляСварки_ГОСТ 14098-2014</CouplingConnectionFamilyName>
 </SquareColumnsReinforcementSettingsT3>

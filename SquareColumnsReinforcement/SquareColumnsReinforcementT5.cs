@@ -262,16 +262,25 @@ namespace SquareColumnsReinforcement
                         mainSecondRebarCurvesS.Add(line3AS);
 
                         //Нижний левый угол
-                        Rebar columnMainRebar_1 = Rebar.CreateFromCurvesAndShape(doc
-                            , form26
-                            , firstMainBarTape
-                            , null
-                            , null
-                            , column
-                            , new XYZ(0, 1, 0)
-                            , mainFirstRebarCurvesL
-                            , RebarHookOrientation.Right
-                            , RebarHookOrientation.Right);
+                        Rebar columnMainRebar_1 = null;
+                        try
+                        {
+                            columnMainRebar_1 = Rebar.CreateFromCurvesAndShape(doc
+                                , form26
+                                , firstMainBarTape
+                                , null
+                                , null
+                                , column
+                                , new XYZ(0, 1, 0)
+                                , mainFirstRebarCurvesL
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+                        }
+                        catch
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать Z-образный стержень! Возможно выбран некорректный тип формы 26!");
+                            return Result.Cancelled;
+                        }
 
                         if (columnMainRebar_1 == null)
                         {
@@ -595,16 +604,25 @@ namespace SquareColumnsReinforcement
                         mainRebarCurvesS.Add(line2S);
 
                         //Нижний левый угол
-                        Rebar columnMainRebar_1 = Rebar.CreateFromCurvesAndShape(doc
-                            , form11
-                            , firstMainBarTape
-                            , null
-                            , null
-                            , column
-                            , new XYZ(0, 1, 0)
-                            , mainFirstRebarCurvesL
-                            , RebarHookOrientation.Right
-                            , RebarHookOrientation.Right);
+                        Rebar columnMainRebar_1 = null;
+                        try
+                        {
+                            columnMainRebar_1 = Rebar.CreateFromCurvesAndShape(doc
+                                , form11
+                                , firstMainBarTape
+                                , null
+                                , null
+                                , column
+                                , new XYZ(0, 1, 0)
+                                , mainFirstRebarCurvesL
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+                        }
+                        catch
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать Г-образный стержень! Возможно выбран некорректный тип формы 11!");
+                            return Result.Cancelled;
+                        }
 
                         if (columnMainRebar_1 == null)
                         {
@@ -919,16 +937,25 @@ namespace SquareColumnsReinforcement
                         mainRebarCurvesS.Add(line1S);
 
                         //Нижний левый угол
-                        Rebar columnMainRebar_1 = Rebar.CreateFromCurvesAndShape(doc
-                            , form01
-                            , firstMainBarTape
-                            , null
-                            , null
-                            , column
-                            , new XYZ(0, 1, 0)
-                            , mainRebarCurvesL
-                            , RebarHookOrientation.Right
-                            , RebarHookOrientation.Right);
+                        Rebar columnMainRebar_1 = null;
+                        try
+                        {
+                            columnMainRebar_1 = Rebar.CreateFromCurvesAndShape(doc
+                                , form01
+                                , firstMainBarTape
+                                , null
+                                , null
+                                , column
+                                , new XYZ(0, 1, 0)
+                                , mainRebarCurvesL
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+                        }
+                        catch
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать прямой стержень! Возможно выбран некорректный тип формы 01!");
+                            return Result.Cancelled;
+                        }
 
                         if (columnMainRebar_1 == null)
                         {
@@ -1348,16 +1375,25 @@ namespace SquareColumnsReinforcement
                         mainSecondRebarCurvesL.Add(line2AL);
 
                         //Нижний левый угол
-                        Rebar columnMainRebar_1 = Rebar.CreateFromCurvesAndShape(doc
-                            , form11
-                            , firstMainBarTape
-                            , null
-                            , null
-                            , column
-                            , new XYZ(0, 1, 0)
-                            , mainFirstRebarCurvesL
-                            , RebarHookOrientation.Right
-                            , RebarHookOrientation.Right);
+                        Rebar columnMainRebar_1 = null;
+                        try
+                        {
+                            columnMainRebar_1 = Rebar.CreateFromCurvesAndShape(doc
+                                , form11
+                                , firstMainBarTape
+                                , null
+                                , null
+                                , column
+                                , new XYZ(0, 1, 0)
+                                , mainFirstRebarCurvesL
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+                        }
+                        catch
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать Г-образный стержень! Возможно выбран некорректный тип формы 11!");
+                            return Result.Cancelled;
+                        }
 
                         if (columnMainRebar_1 == null)
                         {
@@ -1698,16 +1734,25 @@ namespace SquareColumnsReinforcement
                         mainSecondRebarCurvesS.Add(line3AS);
 
                         //Нижний левый угол
-                        Rebar columnMainRebar_1 = Rebar.CreateFromCurvesAndShape(doc
-                            , form26
-                            , firstMainBarTape
-                            , null
-                            , null
-                            , column
-                            , new XYZ(0, 1, 0)
-                            , mainFirstRebarCurvesL
-                            , RebarHookOrientation.Right
-                            , RebarHookOrientation.Right);
+                        Rebar columnMainRebar_1 = null;
+                        try
+                        {
+                            columnMainRebar_1 = Rebar.CreateFromCurvesAndShape(doc
+                                , form26
+                                , firstMainBarTape
+                                , null
+                                , null
+                                , column
+                                , new XYZ(0, 1, 0)
+                                , mainFirstRebarCurvesL
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+                        }
+                        catch
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать Z-образный стержень! Возможно выбран некорректный тип формы 26!");
+                            return Result.Cancelled;
+                        }
 
                         if (columnMainRebar_1 == null)
                         {
@@ -2062,16 +2107,25 @@ namespace SquareColumnsReinforcement
                         mainSecondRebarCurvesS.Add(line3AS);
 
                         //Нижний левый угол
-                        Rebar columnMainRebar_1 = Rebar.CreateFromCurvesAndShape(doc
-                            , form26
-                            , firstMainBarTape
-                            , null
-                            , null
-                            , column
-                            , new XYZ(0, 1, 0)
-                            , mainFirstRebarCurvesL
-                            , RebarHookOrientation.Right
-                            , RebarHookOrientation.Right);
+                        Rebar columnMainRebar_1 = null;
+                        try
+                        {
+                            columnMainRebar_1 = Rebar.CreateFromCurvesAndShape(doc
+                                , form26
+                                , firstMainBarTape
+                                , null
+                                , null
+                                , column
+                                , new XYZ(0, 1, 0)
+                                , mainFirstRebarCurvesL
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+                        }
+                        catch
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать Z-образный стержень! Возможно выбран некорректный тип формы 26!");
+                            return Result.Cancelled;
+                        }
 
                         if (columnMainRebar_1 == null)
                         {
@@ -2423,16 +2477,25 @@ namespace SquareColumnsReinforcement
                         mainSecondRebarCurvesS.Add(line3AS);
 
                         //Нижний левый угол
-                        Rebar columnMainRebar_1 = Rebar.CreateFromCurvesAndShape(doc
-                            , form26
-                            , firstMainBarTape
-                            , null
-                            , null
-                            , column
-                            , new XYZ(0, 1, 0)
-                            , mainFirstRebarCurvesL
-                            , RebarHookOrientation.Right
-                            , RebarHookOrientation.Right);
+                        Rebar columnMainRebar_1 = null;
+                        try
+                        {
+                            columnMainRebar_1 = Rebar.CreateFromCurvesAndShape(doc
+                                , form26
+                                , firstMainBarTape
+                                , null
+                                , null
+                                , column
+                                , new XYZ(0, 1, 0)
+                                , mainFirstRebarCurvesL
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+                        }
+                        catch
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать Z-образный стержень! Возможно выбран некорректный тип формы 26!");
+                            return Result.Cancelled;
+                        }
 
                         if (columnMainRebar_1 == null)
                         {
@@ -2925,16 +2988,25 @@ namespace SquareColumnsReinforcement
                         mainSecondRebarCurvesS.Add(line3AS);
 
                         //Нижний левый угол
-                        Rebar columnMainRebar_1 = Rebar.CreateFromCurvesAndShape(doc
-                            , form26
-                            , firstMainBarTape
-                            , null
-                            , null
-                            , column
-                            , new XYZ(0, 1, 0)
-                            , mainFirstRebarCurvesL
-                            , RebarHookOrientation.Right
-                            , RebarHookOrientation.Right);
+                        Rebar columnMainRebar_1 = null;
+                        try
+                        {
+                            columnMainRebar_1 = Rebar.CreateFromCurvesAndShape(doc
+                                , form26
+                                , firstMainBarTape
+                                , null
+                                , null
+                                , column
+                                , new XYZ(0, 1, 0)
+                                , mainFirstRebarCurvesL
+                                , RebarHookOrientation.Right
+                                , RebarHookOrientation.Right);
+                        }
+                        catch
+                        {
+                            TaskDialog.Show("Revit", "Не удалось создать Z-образный стержень! Возможно выбран некорректный тип формы 26!");
+                            return Result.Cancelled;
+                        }
 
                         if (columnMainRebar_1 == null)
                         {
@@ -3264,16 +3336,25 @@ namespace SquareColumnsReinforcement
                     firstStirrupCurves.Add(firstStirrup_line4);
 
                     //Построение нижнего хомута
-                    Rebar buttomStirrup = Rebar.CreateFromCurvesAndShape(doc
-                        , form51
-                        , firstStirrupBarTape
-                        , rebarHookTypeForStirrup
-                        , rebarHookTypeForStirrup
-                        , column
-                        , new XYZ(0, 0, 1)
-                        , firstStirrupCurves
-                        , RebarHookOrientation.Right
-                        , RebarHookOrientation.Right);
+                    Rebar buttomStirrup = null;
+                    try
+                    {
+                        buttomStirrup = Rebar.CreateFromCurvesAndShape(doc
+                            , form51
+                            , firstStirrupBarTape
+                            , rebarHookTypeForStirrup
+                            , rebarHookTypeForStirrup
+                            , column
+                            , new XYZ(0, 0, 1)
+                            , firstStirrupCurves
+                            , RebarHookOrientation.Right
+                            , RebarHookOrientation.Right);
+                    }
+                    catch
+                    {
+                        TaskDialog.Show("Revit", "Не удалось создать хомут! Возможно выбран некорректный тип формы 51 или отгиб арматуры не соответствует хомуту!");
+                        return Result.Cancelled;
+                    }
 
                     if (buttomStirrup == null)
                     {
