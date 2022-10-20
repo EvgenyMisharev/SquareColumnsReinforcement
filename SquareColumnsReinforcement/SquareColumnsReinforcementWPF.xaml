@@ -176,7 +176,7 @@
                         <GridSplitter Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FFACACAC" Grid.ColumnSpan="2"/>
 
                         <Image x:Name="image_ProgressiveCollapseBarIntoSlab" RenderOptions.BitmapScalingMode="Fant" Source="Resources/ProgressiveCollapse/ProgressiveCollapseBendsIntoSlab.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        <CheckBox x:Name="checkBox_ProgressiveCollapseBarIntoSlab" Content="Дополнительные стержни в плиту ниже" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="5,0,0,0"/>
+                        <CheckBox x:Name="checkBox_ProgressiveCollapseBarIntoSlab" Content="Дополнительные стержни в плиту ниже" HorizontalAlignment="Center" Margin="0,5,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" Padding="5,0,0,0"/>
                         <ComboBox x:Name="comboBox_ProgressiveCollapseBarTapes" HorizontalAlignment="Center" Margin="0,0,205,368" VerticalAlignment="Center" Width="80" Height="25" VerticalContentAlignment="Center"/>
                         <TextBox x:Name="textBox_ProgressiveCollapseColumnCenterOffset" HorizontalAlignment="Center" Height="25" Margin="190,0,0,182" TextWrapping="Wrap" VerticalAlignment="Center" Width="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                         <TextBox x:Name="textBox_ProgressiveCollapseUpLength" HorizontalAlignment="Center" Height="25" Margin="190,143,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
@@ -199,6 +199,30 @@
                                 <ComboBox x:Name="comboBox_CouplingConnection" Margin="10,215,10,0" VerticalAlignment="Top" Height="25" Grid.Column="1" VerticalContentAlignment="Center"/>
                             </Grid>
                         </GroupBox>
+
+                        <Grid Grid.Column="1" Margin="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="100*"/>
+                                <RowDefinition Height="100*"/>
+                                <RowDefinition Height="100*"/>
+                                <RowDefinition Height="100*"/>
+                            </Grid.RowDefinitions>
+                            <GridSplitter Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FFACACAC" Grid.ColumnSpan="2"/>
+                            <GridSplitter Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FFACACAC" Grid.ColumnSpan="2" Grid.Row="1"/>
+                            <GridSplitter Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FFACACAC" Grid.ColumnSpan="2" Grid.Row="2"/>
+
+                            <Label x:Name="label_Citrus" Content="Ссылка на сайт проекта" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0" />
+                            <Image x:Name="image_Citrus" RenderOptions.BitmapScalingMode="Fant" Source="Resources/Logo/Citrus.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Margin="0,15,0,0" MouseLeftButtonDown="image_Citrus_MouseLeftButtonDown"/>
+
+                            <Label x:Name="label_Weandrevit" Content="Ссылка на шаблон Weandrevit" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="1,0,0,0" Grid.Row="1" />
+                            <Image x:Name="image_Weandrevit" RenderOptions.BitmapScalingMode="Fant" Source="Resources/Logo/WeAndRevit.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="260" Margin="0,5,0,0" Grid.Row="1" Height="60" MouseLeftButtonDown="image_Weandrevit_MouseLeftButtonDown"/>
+                            
+                            <Label x:Name="label_Bim2b" Content="Ссылка на шаблоны ADSK" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="1,0,0,0" Grid.Row="2" />
+                            <Image x:Name="image_Bim2b" RenderOptions.BitmapScalingMode="Fant" Source="Resources/Logo/BIM2B.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="170" Margin="0,5,0,0" Grid.Row="2" Height="80" MouseLeftButtonDown="image_Bim2b_MouseLeftButtonDown"/>
+
+                            <Label x:Name="label_Beregi" Content="Разработано при моральной поддержке" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0" />
+                            <Image x:Name="image_Beregi" RenderOptions.BitmapScalingMode="Fant" Source="Resources/Logo/Beregiproject.png" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3" Width="150" Margin="0,15,0,0" Height="85" MouseLeftButtonDown="image_Beregi_MouseLeftButtonDown"/>
+                        </Grid>
                     </Grid>
                 </Grid>
             </TabItem>

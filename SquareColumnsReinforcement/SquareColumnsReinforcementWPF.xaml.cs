@@ -3,6 +3,7 @@ using Autodesk.Revit.DB.Structure;
 using Autodesk.Revit.UI;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -2923,6 +2924,42 @@ namespace SquareColumnsReinforcement
                     textBox_ProgressiveCollapseSideLength.Text = "";
                 }
             }
+        }
+
+        private void image_Citrus_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://sites.google.com/view/citrusbim/",
+                UseShellExecute = true
+            });
+        }
+
+        private void image_Weandrevit_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "http://weandrevit.ru/",
+                UseShellExecute = true
+            });
+        }
+
+        private void image_Bim2b_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://bim2b.ru/adsk",
+                UseShellExecute = true
+            });
+        }
+
+        private void image_Beregi_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://beregiproject.com/",
+                UseShellExecute = true
+            });
         }
     }
 }

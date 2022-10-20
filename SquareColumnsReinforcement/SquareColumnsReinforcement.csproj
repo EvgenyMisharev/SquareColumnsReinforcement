@@ -252,14 +252,23 @@
     <Resource Include="Resources\Connections\SectionChange.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\ProgressiveCollapse\Beregiproject.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Connections\CouplingConnection.png" />
     <Resource Include="Resources\Connections\WeldedConnection.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\ProgressiveCollapse\ProgressiveCollapseBendsIntoSlab.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Logo\Citrus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Logo\Beregiproject.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Logo\BIM2B.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Logo\WeAndRevit.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
