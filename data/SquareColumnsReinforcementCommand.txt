@@ -1,3 +1,3 @@
 Армирование\n квадратных колонн
 Создание системной арматуры в колоннах квадратного сечения по заданным параметрам
-https://www.youtube.com/channel/UCDU1aK8m74CWBDvVrob7mEA
+https://docs.google.com/document/d/1f0hB9FeYZxngNgYGKS1yoEdEFSOEd-bWfKpEiYR4q_A/edit?usp=sharing
