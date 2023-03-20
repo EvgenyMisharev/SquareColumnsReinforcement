@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              Title="Армирование квадратных колонн" Height="900" Width="865" 
              MinHeight="900" MinWidth="865" MaxHeight="900" MaxWidth="865"
-             WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen" KeyDown="SquareColumnsReinforcementWPF_KeyDown">
+             WindowStyle="SingleBorderWindow" ResizeMode="NoResize" Icon="Resources/Logo/citrus.ico" WindowStartupLocation="CenterScreen" KeyDown="SquareColumnsReinforcementWPF_KeyDown">
     <Grid>
         <TabControl x:Name="tabControl" Margin="1,0,1,45">
             <TabItem Header="Геометрия">
@@ -212,8 +212,8 @@
                             <GridSplitter Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FFACACAC" Grid.ColumnSpan="2" Grid.Row="2"/>
 
                             <Label x:Name="label_Citrus" Content="Ссылка на сайт проекта" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0" />
-                            <Image x:Name="image_Citrus" RenderOptions.BitmapScalingMode="Fant" Source="Resources/Logo/Citrus.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Margin="0,15,0,0" MouseLeftButtonDown="image_Citrus_MouseLeftButtonDown"/>
-
+                            <Image x:Name="image_Citrus" RenderOptions.BitmapScalingMode="Fant" Source="Resources/Logo/Citrus.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Margin="38,26,62,14" MouseLeftButtonDown="image_Citrus_MouseLeftButtonDown"/>
+                            
                             <Label x:Name="label_Weandrevit" Content="Ссылка на шаблон Weandrevit" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="1,0,0,0" Grid.Row="1" />
                             <Image x:Name="image_Weandrevit" RenderOptions.BitmapScalingMode="Fant" Source="Resources/Logo/WeAndRevit.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="260" Margin="0,5,0,0" Grid.Row="1" Height="60" MouseLeftButtonDown="image_Weandrevit_MouseLeftButtonDown"/>
                             

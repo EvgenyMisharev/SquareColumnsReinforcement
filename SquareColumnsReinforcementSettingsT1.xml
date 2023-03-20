@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <SquareColumnsReinforcementSettingsT1 xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Form01Name>О_1</Form01Name>
-  <Form26Name>О_26(α»90)</Form26Name>
-  <Form11Name>О_11</Form11Name>
-  <Form51Name>Х_51</Form51Name>
-  <RebarHookTypeForStirrupName>Хомут/стяжка_135°</RebarHookTypeForStirrupName>
-  <FirstMainBarTapeName>А500 Ø25</FirstMainBarTapeName>
-  <FirstStirrupBarTapeName>А240 Ø6</FirstStirrupBarTapeName>
-  <ColumnRebarCoverTypeName>40</ColumnRebarCoverTypeName>
+  <Form01Name>01</Form01Name>
+  <Form26Name>26</Form26Name>
+  <Form11Name>11</Form11Name>
+  <Form51Name>51</Form51Name>
+  <RebarHookTypeForStirrupName>Сейсмическая поперечная арматура - 135 градусов</RebarHookTypeForStirrupName>
+  <FirstMainBarTapeName>ø16</FirstMainBarTapeName>
+  <FirstStirrupBarTapeName>ø6 A240</FirstStirrupBarTapeName>
+  <ColumnRebarCoverTypeName>35мм</ColumnRebarCoverTypeName>
   <RebarConnectionOptionName>radioButton_Overlap</RebarConnectionOptionName>
   <DeepenRebarChecked>false</DeepenRebarChecked>
   <DeepenRebar>0</DeepenRebar>
@@ -26,12 +26,10 @@
   <SectionChangeChecked>false</SectionChangeChecked>
   <SectionChange>0</SectionChange>
   <ProgressiveCollapseBarIntoSlabChecked>false</ProgressiveCollapseBarIntoSlabChecked>
-  <ProgressiveCollapseBarTapeName>А500 Ø25</ProgressiveCollapseBarTapeName>
+  <ProgressiveCollapseBarTapeName>ø6 A240</ProgressiveCollapseBarTapeName>
   <ProgressiveCollapseColumnCenterOffset>100</ProgressiveCollapseColumnCenterOffset>
   <ProgressiveCollapseUpLength>1200</ProgressiveCollapseUpLength>
   <ProgressiveCollapseBottomIndent>150</ProgressiveCollapseBottomIndent>
   <ProgressiveCollapseSideLength>1200</ProgressiveCollapseSideLength>
   <MechanicalConnectionOptionName>radioButton_CouplingConnection</MechanicalConnectionOptionName>
-  <WeldedConnectionFamilyName>ВанночкаДляСварки_ГОСТ 14098-2014</WeldedConnectionFamilyName>
-  <CouplingConnectionFamilyName>МуфтаАрматурная_ТипС_RECO</CouplingConnectionFamilyName>
 </SquareColumnsReinforcementSettingsT1>

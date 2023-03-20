@@ -270,5 +270,8 @@
   <ItemGroup>
     <Resource Include="Resources\Logo\WeAndRevit.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Logo\citrus.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
